@@ -33,16 +33,16 @@ const AppSearchItem: FC<AppSearchItemProps> = ({
 }) => {
   return (
     <button
-      className={`flex items-center rounded-full hover:bg-gray-200 hover:bg-opacity-40 ${
-        active && 'shadow-arround hover:bg-white'
-      }`}
+      className={`${
+        active ? 'shadow-arround hover:bg-white' : 'hover:bg-gray-200 hover:bg-opacity-40'
+      } flex items-center rounded-full`}
       onFocus={onFocus}
       onBlur={onBlur}
     >
       <div
-        className={`flex flex-col flex-grow ${
+        className={`${
           withSearch && 'min-w-[120px]'
-        } pl-7 pr-3 text-left`}
+        } flex flex-col flex-grow pl-7 pr-3 text-left`}
       >
         <span className="font-bold text-xs text-gray-500 tracking-wider">{title}</span>
         {type === 'inputText' ? (
@@ -61,7 +61,7 @@ const AppSearchItem: FC<AppSearchItemProps> = ({
 
       {/* clear icon */}
       <div
-        className={`flex items-center h-8 ${!withSearch && 'border-r border-gray-200'}`}
+        className={`${!withSearch && 'border-r border-gray-200'} flex items-center h-8`}
       >
         <div
           role="button"
@@ -79,9 +79,9 @@ const AppSearchItem: FC<AppSearchItemProps> = ({
         <div
           role="button"
           tabIndex={0}
-          className={`flex items-center justify-center m-2 ml-0 px-3 h-12 ${
-            isSearch ? 'w-auto' : 'w-12'
-          } ${isSearch && 'saturate-200'} rounded-full bg-primary  hover:saturate-200`}
+          className={`${
+            isSearch ? 'w-auto saturate-200' : 'w-12'
+          } flex items-center justify-center m-2 ml-0 px-3 h-12  rounded-full bg-primary  hover:saturate-200`}
           onClick={onSearch}
         >
           <SearchIcon className="h-5 text-white" />

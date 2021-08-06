@@ -4,13 +4,26 @@ const AppHero = () => {
     <section className="relative">
       <div className="absolute w-full bg-gradient-to-b from-transparent-black to-transparent h-28 z-10" />
       <picture>
-        <source srcSet="/assets/hero.webp" media="(min-width:800px)" />
-        <source srcSet="/assets/hero-portrait.webp" media="(min-width:10px)" />
-
+        <source
+          srcSet="/assets/hero/hero-2560p-1x.webp 1x, /assets/hero/hero-2560p-1x.webp 2x"
+          media="(min-width: 1440px)"
+        />
+        <source
+          srcSet="/assets/hero/hero-960p-1x.webp 1x, /assets/hero/hero-1920p-2x.webp 2x"
+          media="(min-width: 950px)"
+        />
+        <source
+          srcSet="/assets/hero/hero-720p-1x.webp 1x, /assets/hero/hero-1440p-2x.webp 2x"
+          media="(min-width: 800px)"
+        />
+        <source srcSet="/assets/hero/hero-320p-1x.webp 1x, /assets/hero/hero-720p-2x.webp 2x" />
         <img
-          src="/assets/hero-portrait.jpg"
-          alt="yes"
+          aria-hidden="true"
+          alt="hero"
+          decoding="async"
+          loading="lazy"
           className="h-screen md:h-[85vh] w-full object-cover object-left"
+          src="/assets/hero/hero-1200p.webp"
         />
       </picture>
 

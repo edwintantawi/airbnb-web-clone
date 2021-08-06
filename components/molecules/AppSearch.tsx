@@ -12,9 +12,10 @@ enum EAppSearch {
 
 interface IAppSearchProps {
   menu: EAppHeaderSelectedMenu | null;
+  isActiveHeader: boolean;
 }
 
-const AppSearchMenu: FC<IAppSearchProps> = ({ menu }) => {
+const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
   const [searchMenu, setSearchMenu] = useState<EAppSearch | null>(null);
   // data
   const [location, setLocation] = useState<string>('');
@@ -25,13 +26,17 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu }) => {
   const handleOnBlur = () => setSearchMenu(null);
 
   return (
-    <div className="flex max-w-[850px] mx-auto mt-2 rounded-full bg-white border border-gray-200">
+    <div
+      className={`${
+        !isActiveHeader && 'translate-y-[-75px] transform scale-50 opacity-0 z-[100]'
+      } flex max-w-[850px] mx-auto mt-2 rounded-full bg-white border border-gray-200 duration-300`}
+    >
       <div
-        className={`grid ${
+        className={`${
           menu === EAppHeaderSelectedMenu.EXPERIENCES
             ? 'grid-cols-2'
             : 'grid-cols-[1fr,0.7fr,0.7fr,auto]'
-        } flex-grow`}
+        } grid flex-grow`}
       >
         {/* location */}
         <AppSearchItem
