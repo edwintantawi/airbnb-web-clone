@@ -26,7 +26,7 @@ const AppHeader = () => {
 
   return (
     <>
-      <header className="fixed top-0 w-full py-5 bg-primary">
+      <header className="z-50 fixed top-0 w-full py-5">
         <div className="container hidden md:grid grid-cols-[1fr,auto] xl:grid-cols-[1.5fr,3fr,1.5fr] 2xl:grid-cols-[1fr,3fr,1fr] gap-y-5 items-start">
           {/* left side - logo */}
           <div className="flex items-center">
@@ -93,18 +93,18 @@ const AppHeader = () => {
         </div>
       </header>
 
-      <div className="fixed bottom-0 md:hidden w-full h-16 border-t border-gray-200 bg-white">
+      <div className="fixed z-50 bottom-0 md:hidden w-full h-16 border-t border-gray-200 bg-white">
         <div className="grid grid-cols-3 items-center h-full max-w-[250px] sm:max-w-[350px] mx-auto">
           <div className="flex flex-col items-center px-3">
             <SearchIcon className="h-6 mr-1 text-primary" />
             <span className="mt-1 text-xs text-gray-500">Explore</span>
           </div>
           <div className="flex flex-col items-center px-3">
-            <HeartIcon className="h-6 mr-1 text-gray-200" />
+            <HeartIcon className="h-6 mr-1 text-gray-300 text-opacity-50" />
             <span className="mt-1 text-xs text-gray-500">Explore</span>
           </div>
           <div className="flex flex-col items-center px-3">
-            <UserCircleIcon className="h-6 mr-1 text-gray-200" />
+            <UserCircleIcon className="h-6 mr-1 text-gray-300 text-opacity-50" />
             <span className="mt-1 text-xs text-gray-500">Explore</span>
           </div>
         </div>

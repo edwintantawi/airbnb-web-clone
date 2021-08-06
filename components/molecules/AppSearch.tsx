@@ -25,7 +25,7 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu }) => {
   const handleOnBlur = () => setSearchMenu(null);
 
   return (
-    <div className="flex max-w-[850px] mx-auto mt-3 rounded-full bg-white border border-gray-200">
+    <div className="flex max-w-[850px] mx-auto mt-2 rounded-full bg-white border border-gray-200">
       <div
         className={`grid ${
           menu === EAppHeaderSelectedMenu.EXPERIENCES
