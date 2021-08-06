@@ -29,7 +29,7 @@ const AppHero = () => {
 
       <div className="container">
         <div className="absolute z-10 left-0 right-0 md:left-auto md:right-auto top-24 md:top-[38%]">
-          <h1 className="max-w-[420px] md:w-[500px] mx-auto md:mx-0 font-bold text-3xl md:text-6xl xl:text-7xl text-center md:text-left text-white tracking-wide leading-8">
+          <h1 className="max-w-[420px] md:w-[500px] px-4 md:px-0 mx-auto md:mx-0 font-bold text-2xl sm:text-3xl md:text-6xl xl:text-7xl text-center md:text-left text-white tracking-wide leading-8">
             Olympian & Paralympian Online Experiences
           </h1>
           <div className="text-center md:text-left">
