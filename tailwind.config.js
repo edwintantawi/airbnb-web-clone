@@ -40,7 +40,6 @@ module.exports = {
       },
       primary: '#FF385C',
       'transparent-black': 'rgba(0,0,0,0.4)',
-      'transparent-white': 'rgba(255,255,255,0.8)',
     },
     screens: {
       sm: '640px',
