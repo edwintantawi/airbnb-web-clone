@@ -13,7 +13,9 @@ const AppNearby: FC<IAppNearby> = ({ data, isSmall }) => {
       <a>
         <div
           key={data.location}
-          className="flex items-center p-2 duration-300 md:p-3 gap-x-4 hover:bg-gray-200 hover:bg-opacity-40 rounded-xl hover:scale-105"
+          className={`${
+            isSmall ? 'items-center' : 'flex-col items-start md:items-center'
+          } flex  p-2 duration-300 md:flex-row md:p-3 gap-x-4 active:scale-105 active:bg-gray-200 active:bg-opacity-40 rounded-xl`}
         >
           <Image
             src={data.img}
@@ -23,14 +25,19 @@ const AppNearby: FC<IAppNearby> = ({ data, isSmall }) => {
             placeholder="blur"
             blurDataURL={data.img}
             className="rounded-lg"
+            objectFit="cover"
           />
-          <div>
+          <div className={`${isSmall || 'mt-2'} md:mt-0`}>
             <h3
-              className={`${isSmall ? 'text-sm' : 'text-base'} font-medium text-gray-500`}
+              className={`${
+                isSmall ? 'text-sm' : 'text-sm lg:text-base'
+              } font-medium text-gray-500`}
             >
               {data.location}
             </h3>
-            <span className={`${isSmall ? 'text-sm' : 'text-base'} text-gray-300`}>
+            <span
+              className={`${isSmall ? 'text-sm' : 'text-sm lg:text-base'} text-gray-300`}
+            >
               {data.distance}
             </span>
           </div>

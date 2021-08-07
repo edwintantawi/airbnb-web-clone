@@ -1,5 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
-import React from 'react';
+import React, { FC } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 // components
@@ -10,30 +9,41 @@ import AppSection from '@/components/atoms/AppSection';
 import AppBanner from '@/components/atoms/AppBanner';
 import AppFooter from '@/components/atoms/AppFooter';
 import AppNearby from '@/components/atoms/AppNearby';
+import AppMobileNavigation from '@/components/atoms/AppNavigationMobile';
+// typings
+import { IExploreNearby, ILiveAnywhere } from 'typings';
 
-export default function Home({ exploreNearby, liveAnywhere }) {
+interface IHomeDataProps {
+  exploreNearby: IExploreNearby[];
+  liveAnywhere: ILiveAnywhere[];
+}
+
+const Home: FC<IHomeDataProps> = ({ exploreNearby, liveAnywhere }) => {
   return (
     <>
       <AppHead />
       <AppHeader exploreNearby={exploreNearby} />
+      {/* hero */}
       <AppHero />
+      {/* explore nearby section */}
       <AppSection
         title="Explore Nearby"
-        className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-3 gap-x-4"
+        className="grid grid-cols-2 lg:gap-x-4 gap-x-1 gap-y-2 sm:grid-cols-3 lg:grid-cols-4"
       >
         {exploreNearby.map((data, index) => (
           <AppNearby key={index} data={data} />
         ))}
       </AppSection>
+      {/* live anywhere section */}
       <AppSection
         title="Live Anywhere"
-        className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+        className="grid grid-cols-2 lg:gap-x-4 gap-x-1 gap-y-2 lg:grid-cols-4"
       >
         {liveAnywhere.map((data, index) => (
           <Link key={index} href="#">
             <a>
-              <div className="p-3 duration-300 gap-y-4 hover:scale-105 hover:bg-gray-200 hover:bg-opacity-40 rounded-xl">
-                <div className="relative w-full mb-2 h-72">
+              <div className="p-2 duration-300 lg:p-3 gap-y-4 active:scale-105 active:bg-gray-200 active:bg-opacity-40 rounded-xl">
+                <div className="relative w-full h-40 mb-2 md:h-60 lg:h-72">
                   <Image
                     src={data.img}
                     alt={data.title}
@@ -45,7 +55,7 @@ export default function Home({ exploreNearby, liveAnywhere }) {
                   />
                 </div>
                 <div>
-                  <h3 className="text-lg font-medium text-gray-500 lg:text-xl">
+                  <h3 className="font-medium leading-5 text-gray-500 text-md md:text-xl">
                     {data.title}
                   </h3>
                 </div>
@@ -54,11 +64,15 @@ export default function Home({ exploreNearby, liveAnywhere }) {
           </Link>
         ))}
       </AppSection>
+      {/* bottom banner */}
       <AppBanner />
+      {/* bottom navigation */}
+      <AppMobileNavigation />
+      {/* footer */}
       <AppFooter />
     </>
   );
-}
+};
 
 export const getStaticProps = async () => {
   const exploreNearbyResponse = await fetch('https://jsonkeeper.com/b/4G1G');
@@ -71,3 +85,5 @@ export const getStaticProps = async () => {
     props: { exploreNearby, liveAnywhere },
   };
 };
+
+export default Home;
