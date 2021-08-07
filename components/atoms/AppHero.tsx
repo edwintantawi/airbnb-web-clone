@@ -1,40 +1,29 @@
 /* eslint-disable @next/next/no-img-element */
+import Image from 'next/image';
+
 const AppHero = () => {
   return (
-    <section className="relative">
-      <div className="absolute w-full bg-gradient-to-b from-transparent-black to-transparent h-28 z-10" />
-      <picture>
-        <source
-          srcSet="/assets/hero/hero-2560p-1x.webp 1x, /assets/hero/hero-2560p-1x.webp 2x"
-          media="(min-width: 1440px)"
-        />
-        <source
-          srcSet="/assets/hero/hero-960p-1x.webp 1x, /assets/hero/hero-1920p-2x.webp 2x"
-          media="(min-width: 950px)"
-        />
-        <source
-          srcSet="/assets/hero/hero-720p-1x.webp 1x, /assets/hero/hero-1440p-2x.webp 2x"
-          media="(min-width: 800px)"
-        />
-        <source srcSet="/assets/hero/hero-320p-1x.webp 1x, /assets/hero/hero-720p-2x.webp 2x" />
-        <img
-          aria-hidden="true"
-          alt="hero"
-          decoding="async"
-          loading="lazy"
-          className="h-screen md:h-[85vh] w-full object-cover object-left"
-          src="/assets/hero/hero-1200p.webp"
-        />
-      </picture>
+    <section className="relative h-[65vh] md:h-[85vh]">
+      <div className="absolute z-10 w-full bg-gradient-to-b from-transparent-black to-transparent h-28" />
+      <Image
+        src="/assets/hero.jpg"
+        layout="fill"
+        alt="hero"
+        objectFit="cover"
+        objectPosition="center bottom"
+        placeholder="blur"
+        blurDataURL="/assets/hero.jpg"
+        quality="50"
+      />
 
       <div className="container">
-        <div className="absolute z-10 left-0 right-0 md:left-auto md:right-auto top-24 md:top-[38%]">
-          <h1 className="max-w-[420px] md:w-[500px] px-4 md:px-0 mx-auto md:mx-0 font-bold text-2xl sm:text-3xl md:text-6xl xl:text-7xl text-center md:text-left text-white tracking-wide leading-8">
-            Olympian & Paralympian Online Experiences
+        <div className="absolute z-10 left-0 right-0 top-[40%] md:top-[50%] xl:top-[38%]">
+          <h1 className="max-w-[250px] xl:max-w-[350px] mx-auto px-4 text-2xl font-bold tracking-wide text-center text-gray-500 md:px-0 md:text-3xl xl:text-4xl">
+            Not sure where to go? Perfect.
           </h1>
-          <div className="text-center md:text-left">
-            <button className="px-4 py-2 mt-4 mx-auto md:mx-0 rounded-md font-medium text-sm bg-white">
-              Explore now
+          <div className="text-center">
+            <button className="px-8 py-2 mx-auto mt-4 text-sm font-medium text-white duration-150 rounded-md sm:py-3 active:scale-90 text-md bg-primary md:mx-0 hover:shadow-xl lg:text-base">
+              I&apos;m flexible
             </button>
           </div>
         </div>

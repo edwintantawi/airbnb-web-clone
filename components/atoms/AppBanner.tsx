@@ -1,42 +1,33 @@
 /* eslint-disable @next/next/no-img-element */
+import Image from 'next/image';
 import Link from 'next/link';
 
 const AppBanner = () => {
   return (
-    <section className="my-8">
+    <section className="my-12">
       <div className="container">
         <Link href="#">
           <a className="relative block">
-            <picture>
-              <source
-                srcSet="/assets/banners/1/banner-1-1440p-1x.jpg 1x, /assets/banners/1/banner-1-2560p-2x.jpg 2x"
-                media="(min-width: 1440px)"
-              />
-              <source
-                srcSet="/assets/banners/1/banner-1-720p-1x.jpg 1x, /assets/banners/1/banner-1-1440p-2x.jpg 2x"
-                media="(min-width: 744px)"
-              />
-              <source
-                srcSet="/assets/banners/1/banner-1-720p-1x-2.jpg 1x, /assets/banners/1/banner-1-1440p-2x-2.jpg 2x"
-                media="(min-width: 744px)"
-              />
-              <source srcSet="/assets/banners/1/banner-1-320p-1x.jpg 1x, /assets/banners/1/banner-1-720p-2x.jpg 2x" />
-              <img
-                aria-hidden="true"
+            <div className="h-[400px] lg:h-[400px] object-cover rounded-3xl">
+              <div className="absolute inset-0 z-10 bg-gradient-to-b from-transparent-white to-transparent md:hidden" />
+              <Image
+                src="/assets/banner.jpg"
                 alt="banner"
-                decoding="async"
-                loading="lazy"
-                src="/assets/banners/1/banner-1.jpg"
-                className="w-full md:h-[400px] lg:h-[480px] object-cover rounded-3xl"
+                layout="fill"
+                objectFit="cover"
+                className="rounded-xl"
               />
-            </picture>
+            </div>
 
-            <div className="absolute z-10 left-0 md:left-16 lg:left-32 right-0 md:right-16 lg:right-3left-32 top-10 md:top-auto md:bottom-1/2 md:translate-y-1/2 text-center md:text-left">
-              <h2 className="w-[180px] md:w-[350px] mx-auto md:mx-0 text-2xl md:text-4xl xl:text-5xl text-center md:text-left font-medium">
-                Not sure where to go? Perfect
+            <div className="absolute left-0 right-0 z-10 text-center md:left-16 lg:left-20 md:right-16 lg:right-20 top-10 md:top-auto md:bottom-1/2 md:translate-y-1/2 md:text-left">
+              <h2 className="font-medium md:font-normal text-gray-500 mb-2 w-[180px] md:w-[350px] mx-auto md:mx-0 text-2xl md:text-4xl xl:text-5xl text-center md:text-left">
+                The Greatest Outdoors
               </h2>
-              <button className="bg-gray-500 text-white font-medium py-2 md:py-3 px-6 mt-4 md:mt-9 rounded-lg">
-                I&apos;m flexible
+              <p className="mb-5 text-sm text-gray-500 md:text-base">
+                Whitelists curated by Airbnb
+              </p>
+              <button className="px-6 py-2 font-medium text-white bg-gray-500 rounded-lg md:py-3">
+                Get Inspired
               </button>
             </div>
           </a>
