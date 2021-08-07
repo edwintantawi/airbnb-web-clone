@@ -44,7 +44,7 @@ const AppHeader = () => {
 
   const headerBehavior = () => {
     let style = [];
-    if (!isSnap) style.push('bg-white');
+    if (!isSnap) style.push('bg-white border-b border-gray-200 shadow-lg');
     if (!isActiveHeader) style.push('h-[86px]');
     return style.join(' ');
   };
@@ -79,16 +79,16 @@ const AppHeader = () => {
             } relative md:absolute left-24 lg:left-0 lg:right-0 transform duration-300 `}
           >
             <button
-              className="flex items-center w-80 h-12 mx-auto rounded-full pl-6 pr-2 bg-white cursor-pointer border border-gray-200 shadow-md hover:shadow-lg text-left"
+              className="flex items-center h-12 pl-6 pr-2 mx-auto text-left bg-white border border-gray-200 rounded-full shadow-md cursor-pointer w-80 hover:shadow-lg"
               onClick={() => setIsActiveHeader(true)}
             >
-              <span className="flex-grow text-sm text-gray-500 font-medium tracking-wide">
+              <span className="flex-grow text-sm font-medium tracking-wide text-gray-500">
                 Start your search
               </span>
-              <SearchIcon className="h-8 p-2 rounded-full text-white bg-primary" />
+              <SearchIcon className="h-8 p-2 text-white rounded-full bg-primary" />
             </button>
           </div>
-          <div className="relative order-last xl:order-none col-span-2 xl:col-span-1 flex flex-col justify-center items-center">
+          <div className="relative flex flex-col items-center justify-center order-last col-span-2 xl:order-none xl:col-span-1">
             {/* middle side */}
             <div className="text-white">
               <AppHeaderMenuItem
@@ -115,7 +115,7 @@ const AppHeader = () => {
             </div>
           </div>
           {/* right side - menu */}
-          <div className="z-50 flex justify-end items-center">
+          <div className="z-50 flex items-center justify-end">
             <Link href="#">
               <a
                 className={`${
@@ -138,21 +138,21 @@ const AppHeader = () => {
                 <GlobeAltIcon className="h-5" />
               </a>
             </Link>
-            <button className="flex items-center h-11 bg-white pr-1 pl-3 rounded-full border border-gray-200 hover:shadow-md">
-              <MenuIcon className="h-5 text-gray-300 mr-2" />
+            <button className="flex items-center pl-3 pr-1 bg-white border border-gray-200 rounded-full h-11 hover:shadow-md">
+              <MenuIcon className="h-5 mr-2 text-gray-300" />
               <UserCircleIconSolid className="h-10 text-gray-300" />
             </button>
           </div>
         </div>
         {/* big search bar */}
-        <div className="px-3 hidden md:block">
+        <div className="hidden px-3 md:block">
           <AppSearch menu={menu} isActiveHeader={isActiveHeader} />
         </div>
         {/* mobile search bar */}
         <div className="container block md:hidden">
           <div className="flex items-center justify-center h-12 bg-gray-100 rounded-full">
             <SearchIcon className="h-5 mr-1 text-primary" />
-            <span className="font-medium text-sm tracking-wide">
+            <span className="text-sm font-medium tracking-wide">
               Where are you going?
             </span>
           </div>
@@ -160,11 +160,11 @@ const AppHeader = () => {
       </header>
       {isActiveHeader && !isSnap ? (
         <div
-          className="fixed inset-0 bg-transparent-black z-40"
+          className="fixed inset-0 z-40 bg-transparent-black"
           onClick={() => setIsActiveHeader(false)}
         />
       ) : null}
-      <div className="fixed z-50 bottom-0 md:hidden w-full h-16 border-t border-gray-200 bg-white">
+      <div className="fixed bottom-0 z-50 w-full h-16 bg-white border-t border-gray-200 md:hidden">
         <div className="grid grid-cols-3 items-center h-full max-w-[250px] sm:max-w-[350px] mx-auto">
           <div className="flex flex-col items-center px-3">
             <SearchIcon className="h-6 mr-1 text-primary" />

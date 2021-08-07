@@ -44,7 +44,7 @@ const AppSearchItem: FC<AppSearchItemProps> = ({
           withSearch && 'min-w-[120px]'
         } flex flex-col flex-grow pl-7 pr-3 text-left`}
       >
-        <span className="font-bold text-xs text-gray-500 tracking-wider">{title}</span>
+        <span className="text-xs font-bold tracking-wider text-gray-500">{title}</span>
         {type === 'inputText' ? (
           <input
             type="text"
@@ -71,7 +71,7 @@ const AppSearchItem: FC<AppSearchItemProps> = ({
           } flex items-center pr-3`}
           onClick={onClear}
         >
-          <XIcon className="h-6 p-1 bg-gray-200 bg-opacity-60 hover:bg-opacity-100 rounded-full" />
+          <XIcon className="h-6 p-1 bg-gray-200 rounded-full bg-opacity-60 hover:bg-opacity-100" />
         </div>
       </div>
 
