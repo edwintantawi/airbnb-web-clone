@@ -87,14 +87,7 @@ export const getStaticProps = async () => {
   const liveAnywhereResponse = await fetch('https://jsonkeeper.com/b/VHHT');
   const liveAnywhere = await liveAnywhereResponse.json();
 
-  console.log(liveAnywhere);
-
   return {
     props: { exploreNearby, liveAnywhere },
   };
 };
-
-// explore nerby
-// https://jsonkeeper.com/b/4G1G
-// live everywhere
-// https://jsonkeeper.com/b/VHHT

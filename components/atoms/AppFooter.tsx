@@ -1,5 +1,5 @@
-/* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
+import Image from 'next/image';
 // icons
 import { GlobeAltIcon } from '@heroicons/react/outline';
 
@@ -140,10 +140,11 @@ const AppFooter = () => {
               <li className="flex items-center">
                 <Link href="#">
                   <a>
-                    <img
+                    <Image
                       src="/assets/icons/facebook.svg"
                       alt="facebook"
-                      className="h-4"
+                      height={16}
+                      width={16}
                     />
                   </a>
                 </Link>
@@ -151,17 +152,23 @@ const AppFooter = () => {
               <li className="flex items-center">
                 <Link href="#">
                   <a>
-                    <img src="/assets/icons/twitter.svg" alt="facebook" className="h-4" />
+                    <Image
+                      src="/assets/icons/twitter.svg"
+                      alt="facebook"
+                      height={16}
+                      width={16}
+                    />
                   </a>
                 </Link>
               </li>
               <li className="flex items-center">
                 <Link href="#">
                   <a>
-                    <img
+                    <Image
                       src="/assets/icons/instagram.svg"
                       alt="facebook"
-                      className="h-4"
+                      height={16}
+                      width={16}
                     />
                   </a>
                 </Link>

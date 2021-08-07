@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import Image from 'next/image';
 
 const AppHero = () => {
@@ -13,11 +12,11 @@ const AppHero = () => {
         objectPosition="center bottom"
         placeholder="blur"
         blurDataURL="/assets/hero.jpg"
-        quality="50"
+        quality="90"
       />
 
       <div className="container">
-        <div className="absolute z-10 left-0 right-0 top-[40%] md:top-[50%] xl:top-[38%]">
+        <div className="absolute z-10 left-0 right-0 top-[45%] md:top-[50%] xl:top-[40%]">
           <h1 className="max-w-[250px] xl:max-w-[350px] mx-auto px-4 text-2xl font-bold tracking-wide text-center text-gray-500 md:px-0 md:text-3xl xl:text-4xl">
             Not sure where to go? Perfect.
           </h1>
