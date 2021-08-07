@@ -44,7 +44,7 @@ const AppHeader = () => {
 
   const headerBehavior = () => {
     let style = [];
-    if (!isSnap) style.push('bg-white border-b border-gray-200 shadow-lg');
+    if (!isSnap) style.push('bg-white shadow-lg border-opacity-100');
     if (!isActiveHeader) style.push('h-[86px]');
     return style.join(' ');
   };
@@ -52,7 +52,7 @@ const AppHeader = () => {
   return (
     <>
       <header
-        className={`${headerBehavior()} z-50 fixed top-0 w-full py-5 duration-300 md:transition-none`}
+        className={`${headerBehavior()} z-50 border-b border-gray-200 fixed top-0 w-full py-5 duration-300 md:transition-none`}
       >
         <div className="container hidden md:grid grid-cols-[auto,1fr,auto] xl:grid-cols-[1.5fr,3fr,1.5fr] 2xl:grid-cols-[1fr,3fr,1fr] gap-y-5 items-start">
           {/* left side - logo */}
