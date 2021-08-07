@@ -72,7 +72,7 @@ const AppHeader = ({ exploreNearby }) => {
             className={`${
               isActiveHeader
                 ? 'scale-[1.33] translate-y-[75px] opacity-0 z-[-50]'
-                : 'z-[60]'
+                : 'z-40'
             } relative md:absolute left-24 lg:left-0 lg:right-0 transform duration-300 `}
           >
             <button
@@ -112,7 +112,7 @@ const AppHeader = ({ exploreNearby }) => {
             </div>
           </div>
           {/* right side - menu */}
-          <div className="z-50 flex items-center justify-end">
+          <div className="z-30 flex items-center justify-end lg:z-40">
             <Link href="#">
               <a
                 className={`${
