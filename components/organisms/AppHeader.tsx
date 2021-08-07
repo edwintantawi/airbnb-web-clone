@@ -68,23 +68,19 @@ const AppHeader = ({ exploreNearby }) => {
             </Link>
           </div>
           {/* small search */}
-          <div
+          <button
             className={`${
               isActiveHeader
                 ? 'scale-[1.33] translate-y-[75px] opacity-0 z-[-50]'
-                : 'z-40'
-            } relative md:absolute left-24 lg:left-0 lg:right-0 transform duration-300 `}
+                : 'z-50'
+            } relative z-50 flex items-center h-12 pl-6 pr-2 mx-auto text-left transform bg-white border border-gray-200 rounded-full shadow-md cursor-pointer w-80 hover:shadow-lg md:absolute left-24 lg:left-0 lg:right-0`}
+            onClick={() => setIsActiveHeader(true)}
           >
-            <button
-              className="flex items-center h-12 pl-6 pr-2 mx-auto text-left bg-white border border-gray-200 rounded-full shadow-md cursor-pointer w-80 hover:shadow-lg"
-              onClick={() => setIsActiveHeader(true)}
-            >
-              <span className="flex-grow text-sm font-medium tracking-wide text-gray-500">
-                Start your search
-              </span>
-              <SearchIcon className="h-8 p-2 text-white rounded-full bg-primary" />
-            </button>
-          </div>
+            <span className="flex-grow text-sm font-medium tracking-wide text-gray-500">
+              Start your search
+            </span>
+            <SearchIcon className="h-8 p-2 text-white rounded-full bg-primary" />
+          </button>
           {/* middle side */}
           <div className="relative flex flex-col items-center justify-center order-last col-span-2 xl:order-none xl:col-span-1">
             <div className="text-white">
@@ -112,7 +108,7 @@ const AppHeader = ({ exploreNearby }) => {
             </div>
           </div>
           {/* right side - menu */}
-          <div className="z-30 flex items-center justify-end lg:z-40">
+          <div className="z-40 flex items-center justify-end">
             <Link href="#">
               <a
                 className={`${
@@ -142,7 +138,7 @@ const AppHeader = ({ exploreNearby }) => {
           </div>
         </div>
         {/* big search bar */}
-        <div className={`${isActiveHeader ? 'visible' : 'invisible'}`}>
+        <div className={`${isActiveHeader ? 'visible' : 'invisible'} px-4`}>
           <AppSearch menu={menu} isActiveHeader={isActiveHeader} />
         </div>
         {/* mobile search bar */}
