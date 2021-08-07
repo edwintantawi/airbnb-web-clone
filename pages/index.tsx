@@ -9,40 +9,20 @@ import AppHero from '@/components/atoms/AppHero';
 import AppSection from '@/components/atoms/AppSection';
 import AppBanner from '@/components/atoms/AppBanner';
 import AppFooter from '@/components/atoms/AppFooter';
+import AppNearby from '@/components/atoms/AppNearby';
 
 export default function Home({ exploreNearby, liveAnywhere }) {
   return (
     <>
       <AppHead />
-      <AppHeader />
+      <AppHeader exploreNearby={exploreNearby} />
       <AppHero />
       <AppSection
         title="Explore Nearby"
-        className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-2 gap-x-4"
+        className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-3 gap-x-4"
       >
         {exploreNearby.map((data, index) => (
-          <Link key={index} href="#">
-            <a>
-              <div
-                key={data.location}
-                className="flex items-center p-4 duration-300 gap-x-4 hover:bg-gray-200 hover:bg-opacity-40 rounded-xl hover:scale-105"
-              >
-                <Image
-                  src={data.img}
-                  alt={data.location}
-                  width={64}
-                  height={64}
-                  placeholder="blur"
-                  blurDataURL={data.img}
-                  className="w-16 h-16 rounded-lg"
-                />
-                <div>
-                  <h3 className="font-medium text-gray-500">{data.location}</h3>
-                  <span className="text-gray-300">{data.distance}</span>
-                </div>
-              </div>
-            </a>
-          </Link>
+          <AppNearby key={index} data={data} />
         ))}
       </AppSection>
       <AppSection

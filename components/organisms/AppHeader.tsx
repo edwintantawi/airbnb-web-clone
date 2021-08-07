@@ -4,27 +4,24 @@ import Link from 'next/link';
 import AppLogo, { EAppLogo } from '@/components/atoms/AppLogo';
 import AppSearch from '@/components/molecules/AppSearch';
 import AppHeaderMenuItem from '@/components/atoms/AppHeaderMenuItem';
+import AppSearchMobile from '@/components/molecules/AppSearchMobile';
+import AppMobileNavigation from '@/components/atoms/AppMobileNavigation';
 // icons
-import {
-  GlobeAltIcon,
-  MenuIcon,
-  SearchIcon,
-  HeartIcon,
-  UserCircleIcon,
-} from '@heroicons/react/outline';
-import { UserCircleIcon as UserCircleIconSolid } from '@heroicons/react/solid';
+import { GlobeAltIcon, MenuIcon, SearchIcon } from '@heroicons/react/outline';
+import { UserCircleIcon } from '@heroicons/react/solid';
 
 export enum EAppHeaderSelectedMenu {
   PLACES_TO_STAY = 'placesToStay',
   EXPERIENCES = 'experiences',
 }
 
-const AppHeader = () => {
+const AppHeader = ({ exploreNearby }) => {
   const [isSnap, setIsSnap] = useState<boolean>(true);
   const [isActiveHeader, setIsActiveHeader] = useState<boolean>(true);
   const [menu, setMenu] = useState<EAppHeaderSelectedMenu | null>(
     EAppHeaderSelectedMenu.PLACES_TO_STAY
   );
+  const [isMobileNavActive, setIsMobileNavActive] = useState<boolean>(false);
 
   const handleOnScroll = () => {
     const position = window.pageYOffset;
@@ -88,8 +85,8 @@ const AppHeader = () => {
               <SearchIcon className="h-8 p-2 text-white rounded-full bg-primary" />
             </button>
           </div>
+          {/* middle side */}
           <div className="relative flex flex-col items-center justify-center order-last col-span-2 xl:order-none xl:col-span-1">
-            {/* middle side */}
             <div className="text-white">
               <AppHeaderMenuItem
                 isSnap={isSnap}
@@ -140,23 +137,26 @@ const AppHeader = () => {
             </Link>
             <button className="flex items-center pl-3 pr-1 bg-white border border-gray-200 rounded-full h-11 hover:shadow-md">
               <MenuIcon className="h-5 mr-2 text-gray-300" />
-              <UserCircleIconSolid className="h-10 text-gray-300" />
+              <UserCircleIcon className="h-10 text-gray-300" />
             </button>
           </div>
         </div>
         {/* big search bar */}
-        <div className="hidden px-3 md:block">
+        <div className={`${isActiveHeader ? 'visible' : 'invisible'}`}>
           <AppSearch menu={menu} isActiveHeader={isActiveHeader} />
         </div>
         {/* mobile search bar */}
-        <div className="container block md:hidden">
+        <button
+          className="container block w-full md:hidden"
+          onClick={() => setIsMobileNavActive(true)}
+        >
           <div className="flex items-center justify-center h-12 bg-gray-100 rounded-full">
             <SearchIcon className="h-5 mr-1 text-primary" />
             <span className="text-sm font-medium tracking-wide">
               Where are you going?
             </span>
           </div>
-        </div>
+        </button>
       </header>
       {isActiveHeader && !isSnap ? (
         <div
@@ -164,22 +164,16 @@ const AppHeader = () => {
           onClick={() => setIsActiveHeader(false)}
         />
       ) : null}
-      <div className="fixed bottom-0 z-50 w-full h-16 bg-white border-t border-gray-200 md:hidden">
-        <div className="grid grid-cols-3 items-center h-full max-w-[250px] sm:max-w-[350px] mx-auto">
-          <div className="flex flex-col items-center px-3">
-            <SearchIcon className="h-6 mr-1 text-primary" />
-            <span className="mt-1 text-xs text-gray-500">Explore</span>
-          </div>
-          <div className="flex flex-col items-center px-3">
-            <HeartIcon className="h-6 mr-1 text-gray-300 text-opacity-50" />
-            <span className="mt-1 text-xs text-gray-500">Explore</span>
-          </div>
-          <div className="flex flex-col items-center px-3">
-            <UserCircleIcon className="h-6 mr-1 text-gray-300 text-opacity-50" />
-            <span className="mt-1 text-xs text-gray-500">Explore</span>
-          </div>
-        </div>
-      </div>
+
+      {/* bottom navigation */}
+      <AppMobileNavigation />
+
+      {/* mobile search */}
+      <AppSearchMobile
+        exploreNearby={exploreNearby}
+        active={isMobileNavActive}
+        onClose={() => setIsMobileNavActive(false)}
+      />
     </>
   );
 };

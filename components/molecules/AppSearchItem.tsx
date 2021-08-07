@@ -1,9 +1,12 @@
-import { ChangeEvent, FC } from 'react';
+import React, { ChangeEvent, FC } from 'react';
+// components
+import IAppClearButton from '@/components/atoms/AppClearButton';
 // icons
-import { SearchIcon, XIcon } from '@heroicons/react/outline';
+import { SearchIcon } from '@heroicons/react/outline';
 
-interface AppSearchItemProps {
+interface IAppSearchItemProps {
   withSearch?: boolean;
+  separator?: boolean;
   isSearch?: boolean;
   type?: string;
   title: string;
@@ -17,7 +20,8 @@ interface AppSearchItemProps {
   onSearch?: () => void;
 }
 
-const AppSearchItem: FC<AppSearchItemProps> = ({
+const AppSearchItem: FC<IAppSearchItemProps> = ({
+  separator,
   withSearch,
   isSearch,
   type,
@@ -60,20 +64,12 @@ const AppSearchItem: FC<AppSearchItemProps> = ({
       </div>
 
       {/* clear icon */}
-      <div
-        className={`${!withSearch && 'border-r border-gray-200'} flex items-center h-8`}
-      >
-        <div
-          role="button"
-          tabIndex={0}
-          className={`${
-            active && value ? 'opacity-100' : 'opacity-0'
-          } flex items-center pr-3`}
-          onClick={onClear}
-        >
-          <XIcon className="h-6 p-1 bg-gray-200 rounded-full bg-opacity-60 hover:bg-opacity-100" />
-        </div>
-      </div>
+      <IAppClearButton
+        onClick={onClear}
+        active={value}
+        isFocus={active}
+        separator={separator}
+      />
 
       {withSearch && (
         <div
