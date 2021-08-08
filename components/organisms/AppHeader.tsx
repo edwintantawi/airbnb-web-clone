@@ -35,7 +35,8 @@ const AppHeader = ({ exploreNearby }) => {
   const headerBehavior = () => {
     let style = [];
     if (!isSnapTop) style.push('bg-white shadow-lg');
-    if (!isActiveSearch) style.push('h-[86px]');
+    if (!isActiveSearch) style.push('h-[86px] pb-5');
+    if (isActiveSearch) style.push('pb-8');
     return style.join(' ');
   };
 
@@ -48,7 +49,7 @@ const AppHeader = ({ exploreNearby }) => {
   return (
     <>
       <header
-        className={`${headerBehavior()} z-50 fixed top-0 w-full py-5 duration-300 md:transition-none`}
+        className={`${headerBehavior()} z-50 fixed top-0 w-full pt-5 duration-300 md:transition-none`}
       >
         {/* header top */}
         <div className="container hidden md:grid md:grid-cols-[auto,1fr,auto] xl:grid-cols-[1.5fr,3fr,1.5fr] 2xl:grid-cols-[1fr,3fr,1fr] items-start">
