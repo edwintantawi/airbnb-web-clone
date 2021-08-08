@@ -1,12 +1,21 @@
 import React, { FC, useState } from 'react';
+import { DateRange } from 'react-date-range';
 // components
 import { EAppHeaderSelectedMenu } from '@/components/organisms/AppHeader';
 import AppSearchItem from '@/components/molecules/AppSearchItem';
 // data
 import { useDataContext } from 'hooks/useDataContext';
 import { DATA_ACTION_TYPES } from 'context/actionTypes';
+// styles
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 
-enum EAppSearch {
+enum EFocusedDate {
+  CHECK_IN = 'startDate',
+  CHECK_OUT = 'endDate',
+}
+
+enum ESearchMenu {
   LOCATION = 'location',
   CHECK_IN = 'checkIn',
   CHECK_OUT = 'checkOut',
@@ -19,11 +28,25 @@ interface IAppSearchProps {
 }
 
 const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
-  const [searchMenu, setSearchMenu] = useState<EAppSearch | null>(null);
+  const [searchMenu, setSearchMenu] = useState<ESearchMenu | null>(null);
+  // const [focusedDate, setFocusedDate] = useState<EFocusedDate>(EFocusedDate.CHECK_IN);
+  // const [isActiveCalendar, setIsActiveCalendar] = useState<boolean>(false);
   // data
   const [{ location, checkIn, checkOut, guests }, dispatch] = useDataContext();
   // handler
   const handleOnBlur = () => setSearchMenu(null);
+
+  // const selectionRange = {
+  //   startDate: checkIn,
+  //   endDate: checkOut,
+  //   key: 'selection',
+  // };
+
+  const handleDatePicker = (range) => {
+    const { startDate, endDate } = range.selection;
+    dispatch({ type: DATA_ACTION_TYPES.SET_CHECK_IN, payload: startDate });
+    dispatch({ type: DATA_ACTION_TYPES.SET_CHECK_OUT, payload: endDate });
+  };
 
   return (
     <>
@@ -46,12 +69,12 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
               type="inputText"
               title="Location"
               placeholder="Where are you going?"
-              active={searchMenu === EAppSearch.LOCATION}
+              active={searchMenu === ESearchMenu.LOCATION}
               value={location}
               onChange={({ target }) =>
                 dispatch({ type: DATA_ACTION_TYPES.SET_LOCATION, payload: target.value })
               }
-              onFocus={() => setSearchMenu(EAppSearch.LOCATION)}
+              onFocus={() => setSearchMenu(ESearchMenu.LOCATION)}
               onBlur={handleOnBlur}
               onClear={() => {
                 dispatch({ type: DATA_ACTION_TYPES.SET_LOCATION, payload: '' });
@@ -66,9 +89,16 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
                   separator
                   title="Check in"
                   placeholder="Add dates"
-                  active={searchMenu === EAppSearch.CHECK_IN}
-                  value={checkIn}
-                  onFocus={() => setSearchMenu(EAppSearch.CHECK_IN)}
+                  active={searchMenu === ESearchMenu.CHECK_IN}
+                  value={new Date(checkIn).toLocaleString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                  onFocus={() => {
+                    // setIsActiveCalendar(true);
+                    // setFocusedDate(EFocusedDate.CHECK_IN);
+                    setSearchMenu(ESearchMenu.CHECK_IN);
+                  }}
                   onBlur={handleOnBlur}
                   onClear={() => {}}
                 />
@@ -77,9 +107,16 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
                   separator
                   title="Check out"
                   placeholder="Add dates"
-                  active={searchMenu === EAppSearch.CHECK_OUT}
-                  value={checkOut}
-                  onFocus={() => setSearchMenu(EAppSearch.CHECK_OUT)}
+                  active={searchMenu === ESearchMenu.CHECK_OUT}
+                  value={new Date(checkOut).toLocaleString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                  onFocus={() => {
+                    // setIsActiveCalendar(true);
+                    // setFocusedDate(EFocusedDate.CHECK_OUT);
+                    setSearchMenu(ESearchMenu.CHECK_OUT);
+                  }}
                   onBlur={handleOnBlur}
                   onClear={() => {}}
                 />
@@ -87,13 +124,13 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
                   withSearch
                   title="Guests"
                   placeholder="Add guests"
-                  active={searchMenu === EAppSearch.GUESTS}
+                  active={searchMenu === ESearchMenu.GUESTS}
                   value={guests}
-                  onFocus={() => setSearchMenu(EAppSearch.GUESTS)}
+                  onFocus={() => setSearchMenu(ESearchMenu.GUESTS)}
                   onBlur={handleOnBlur}
                   onClear={() => {}}
                   isSearch={!!searchMenu}
-                  onSearch={() => setSearchMenu(EAppSearch.LOCATION)}
+                  onSearch={() => setSearchMenu(ESearchMenu.LOCATION)}
                 />
               </>
             ) : (
@@ -101,17 +138,38 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
                 withSearch
                 title="Date"
                 placeholder="Add when you want to go"
-                active={searchMenu === EAppSearch.GUESTS}
+                active={searchMenu === ESearchMenu.GUESTS}
                 value={guests}
-                onFocus={() => setSearchMenu(EAppSearch.GUESTS)}
+                onFocus={() => setSearchMenu(ESearchMenu.GUESTS)}
                 onBlur={handleOnBlur}
                 onClear={() => {}}
                 isSearch={!!searchMenu}
-                onSearch={() => setSearchMenu(EAppSearch.LOCATION)}
+                onSearch={() => setSearchMenu(ESearchMenu.LOCATION)}
               />
             )}
           </div>
         </div>
+        {/* date picker */}
+        {/* <div
+          className={`${
+            isActiveCalendar ? 'flex' : 'hidden'
+          } absolute right-1/2 translate-x-1/2`}
+        >
+          <div className="rounded-3xl w-[850px] overflow-hidden shadow-arround-bold mt-3">
+            <DateRange
+              ranges={[selectionRange]}
+              onChange={handleDatePicker}
+              months={2}
+              direction="horizontal"
+              className="p-8"
+              showMonthAndYearPickers={false}
+              rangeColors={['#F7F7F7']}
+              minDate={new Date()}
+              showDateDisplay={false}
+              monthDisplayFormat="MMMM YYY"
+            />
+          </div>
+        </div> */}
       </div>
     </>
   );
