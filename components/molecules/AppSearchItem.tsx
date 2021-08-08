@@ -1,10 +1,10 @@
-import React, { ChangeEvent, FC } from 'react';
+import React, { ChangeEvent, FC, PropsWithChildren } from 'react';
 // components
 import IAppClearButton from '@/components/atoms/AppClearButton';
 // icons
 import { SearchIcon } from '@heroicons/react/outline';
 
-interface IAppSearchItemProps {
+interface IAppSearchItemProps extends PropsWithChildren<any> {
   withSearch?: boolean;
   separator?: boolean;
   isSearch?: boolean;
@@ -21,6 +21,7 @@ interface IAppSearchItemProps {
 }
 
 const AppSearchItem: FC<IAppSearchItemProps> = ({
+  children,
   separator,
   withSearch,
   isSearch,
@@ -39,7 +40,7 @@ const AppSearchItem: FC<IAppSearchItemProps> = ({
     <button
       className={`${
         active ? 'shadow-arround hover:bg-white' : 'hover:bg-gray-200 hover:bg-opacity-40'
-      } flex items-center rounded-full`}
+      } flex items-center rounded-full relative`}
       onFocus={onFocus}
       onBlur={onBlur}
     >
@@ -90,6 +91,7 @@ const AppSearchItem: FC<IAppSearchItemProps> = ({
           </span>
         </div>
       )}
+      <div className={`${active ? 'block' : 'hidden'} absolute top-20`}>{children}</div>
     </button>
   );
 };
