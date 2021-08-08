@@ -22,6 +22,7 @@ module.exports = {
       inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
       none: 'none',
       arround: '0 8px 25px rgba(0,0,0,0.2)',
+      'arround-bold': '0 10px 28px rgba(0,0,0,0.3)',
     },
     colors: {
       transparent: 'transparent',
