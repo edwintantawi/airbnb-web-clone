@@ -1,11 +1,18 @@
 import { createContext, useReducer } from 'react';
 import { dataReducer } from './reducer';
 
-export const initialState = {
+interface IInitialState {
+  location: string;
+  checkIn: Date;
+  checkOut: Date;
+  guests: 0;
+}
+
+export const initialState: IInitialState = {
   location: '',
-  checkIn: '',
-  checkOut: '',
-  guests: '',
+  checkIn: new Date(),
+  checkOut: new Date(),
+  guests: 0,
 };
 
 export const DataContext = createContext(null);
