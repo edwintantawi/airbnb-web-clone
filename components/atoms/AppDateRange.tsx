@@ -19,23 +19,18 @@ const AppDateRange = () => {
   };
 
   return (
-    <div
-      className={`flex absolute left-0 right-0 searchbar:left-auto searchbar:right-1/2 searchbar:translate-x-1/2 px-4`}
-    >
-      <div className="rounded-3xl w-full searchbar:w-[850px] overflow-hidden shadow-arround-bold mt-3">
-        <DateRange
-          ranges={[selectionRange]}
-          onChange={handleDatePicker}
-          months={2}
-          direction="horizontal"
-          className="p-8"
-          showMonthAndYearPickers={false}
-          rangeColors={['#F7F7F7']}
-          minDate={new Date()}
-          showDateDisplay={false}
-          monthDisplayFormat="MMMM YYY"
-        />
-      </div>
+    <div className="py-4 overflow-hidden rounded-3xl">
+      <DateRange
+        ranges={[selectionRange]}
+        onChange={handleDatePicker}
+        months={2}
+        direction="horizontal"
+        showMonthAndYearPickers={false}
+        rangeColors={['#F7F7F7']}
+        minDate={new Date()}
+        showDateDisplay={false}
+        monthDisplayFormat="MMMM YYY"
+      />
     </div>
   );
 };

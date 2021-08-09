@@ -5,14 +5,18 @@ interface IInitialState {
   location: string;
   checkIn: Date | null;
   checkOut: Date | null;
-  guests: 0;
+  guests: {
+    adults: number;
+    children: number;
+    infants: number;
+  };
 }
 
 export const initialState: IInitialState = {
   location: '',
   checkIn: null,
   checkOut: null,
-  guests: 0,
+  guests: { adults: 0, children: 0, infants: 0 },
 };
 
 export const DataContext = createContext(null);

@@ -61,10 +61,12 @@ const AppSearchItem: FC<IAppSearchItemProps> = ({
             onChange={onChange}
             onFocus={onFocus}
             placeholder={placeholder}
-            className="w-full text-sm text-gray-500 placeholder-gray-300 bg-transparent outline-none"
+            className="w-full text-sm text-gray-500 placeholder-gray-300 truncate bg-transparent outline-none"
           />
         ) : (
-          <span className="text-sm text-gray-300">{value || placeholder}</span>
+          <span className="text-sm text-gray-300 truncate max-w-[105px] lg:max-w-none">
+            {value || placeholder}
+          </span>
         )}
       </div>
 
@@ -77,9 +79,8 @@ const AppSearchItem: FC<IAppSearchItemProps> = ({
       />
 
       {withSearch && (
-        <div
-          role="button"
-          tabIndex={0}
+        <button
+          type="submit"
           className={`${
             isSearch ? 'w-auto saturate-200' : 'w-12'
           } flex items-center justify-center m-2 ml-0 px-3 h-12  rounded-full bg-primary  hover:saturate-200`}
@@ -93,7 +94,7 @@ const AppSearchItem: FC<IAppSearchItemProps> = ({
           >
             Search
           </span>
-        </div>
+        </button>
       )}
       <div className={`${active ? 'block' : 'hidden'} mt-16`}>{children}</div>
     </span>

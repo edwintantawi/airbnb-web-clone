@@ -32,8 +32,7 @@
   position: absolute;
   right: 0;
   left: 0;
-  top: 22px;
-  padding: 0 32px;
+  top: -8px;
 }
 
 .rdrMonthAndYearPickers {
@@ -58,8 +57,8 @@
 .rdrEndEdge,
 .rdrInRange,
 .rdrDayNumber {
-  height: 44px !important;
-  width: 44px !important;
+  height: 43px !important;
+  width: 43px !important;
 }
 
 .rdrSelected,
@@ -95,7 +94,7 @@
 .rdrDayEndPreview {
   border-radius: 999px !important;
   top: 0 !important;
-  height: 44px !important;
+  height: 43px !important;
   border: 1px solid black !important;
 }
 
@@ -122,7 +121,24 @@ span.rdrDayNumber span {
   background-color: white !important;
 }
 
-@media screen and (min-width: 810px) {
+@media screen and (min-width: 790) {
+  .rdrDay,
+  .rdrInRangem,
+  .rdrStartEdge,
+  .rdrEndEdge,
+  .rdrInRange,
+  .rdrDayNumber {
+    height: 44px !important;
+    width: 44px !important;
+  }
+
+  .rdrDayStartPreview,
+  .rdrDayEndPreview {
+    height: 44px !important;
+  }
+}
+
+@media screen and (min-width: 830px) {
   .rdrDay,
   .rdrInRangem,
   .rdrStartEdge,
@@ -139,7 +155,7 @@ span.rdrDayNumber span {
   }
 }
 
-@media screen and (min-width: 836px) {
+@media screen and (min-width: 840px) {
   .rdrDay,
   .rdrInRangem,
   .rdrStartEdge,
@@ -156,7 +172,7 @@ span.rdrDayNumber span {
   }
 }
 
-@media screen and (min-width: 858px) {
+@media screen and (min-width: 860px) {
   .rdrDay,
   .rdrInRangem,
   .rdrStartEdge,
@@ -172,6 +188,23 @@ span.rdrDayNumber span {
     height: 47px !important;
   }
 }
+@media screen and (min-width: 870px) {
+  .rdrDay,
+  .rdrInRangem,
+  .rdrStartEdge,
+  .rdrEndEdge,
+  .rdrInRange,
+  .rdrDayNumber {
+    height: 48px !important;
+    width: 48px !important;
+  }
+
+  .rdrDayStartPreview,
+  .rdrDayEndPreview {
+    height: 48px !important;
+  }
+}
+
 @media screen and (min-width: 880px) {
   .rdrDay,
   .rdrInRangem,

@@ -1,9 +1,13 @@
-import React, { FC, FocusEvent, useState } from 'react';
+import React, { FC, FocusEvent, FormEvent, useState } from 'react';
 import { format } from 'date-fns';
+import { useRouter } from 'next/router';
+
 // components
 import { EAppHeaderSelectedMenu } from '@/components/organisms/AppHeader';
 import AppSearchItem from '@/components/molecules/AppSearchItem';
 import AppDateRange from '@/components/atoms/AppDateRange';
+import AppCounter from '@/components/atoms/AppCounter';
+import AppSearchItemContent from '@/components/atoms/AppSearchItemContent';
 // data
 import { useDataContext } from 'hooks/useDataContext';
 import { DATA_ACTION_TYPES } from 'context/actionTypes';
@@ -11,12 +15,7 @@ import { DATA_ACTION_TYPES } from 'context/actionTypes';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 // icons
-import { ChevronRightIcon, PlusIcon, MinusIcon } from '@heroicons/react/outline';
-
-enum EFocusedDate {
-  CHECK_IN = 'startDate',
-  CHECK_OUT = 'endDate',
-}
+import { ChevronRightIcon } from '@heroicons/react/outline';
 
 enum ESearchMenu {
   LOCATION = 'location',
@@ -31,8 +30,8 @@ interface IAppSearchProps {
 }
 
 const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
+  const router = useRouter();
   const [searchMenu, setSearchMenu] = useState<ESearchMenu | null>(null);
-  // const [focusedDate, setFocusedDate] = useState<EFocusedDate>(EFocusedDate.CHECK_IN);
   // data
   const [{ location, checkIn, checkOut, guests }, dispatch] = useDataContext();
   // handler
@@ -42,13 +41,11 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
       setSearchMenu(null);
       return;
     }
-
     const relatedTargetClassList = Array.from((relatedTarget as Element)?.classList);
-    const result = relatedTargetClassList.some(
-      (className) => className.slice(0, 3) === 'rdr'
-    );
-    console.log('class:', relatedTargetClassList);
-    console.log('result:', result);
+    const result = relatedTargetClassList.some((className) => {
+      const prefix = ['rdr', 'btn'];
+      if (prefix.includes(className.slice(0, 3))) return true;
+    });
     if (!result) setSearchMenu(null);
   };
 
@@ -60,6 +57,16 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
   const rangeDate = (startDate, endDate) => {
     if (!startDate && !endDate) return false;
     const template = `${formatCheckDate(checkIn)} - ${formatCheckDate(checkOut)}`;
+    return template;
+  };
+
+  const formatGuests = () => {
+    const { children, adults, infants } = guests;
+    const total = adults + children;
+    if (!total) return 0;
+    let template = `${total} guest`;
+    if (total >= 2) template = `${total} guests`;
+    if (infants) template += `, ${infants} infant`;
     return template;
   };
 
@@ -75,6 +82,27 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
     handleOnBlur();
   };
 
+  const handleOnSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!location) {
+      setSearchMenu(ESearchMenu.LOCATION);
+      return;
+    }
+
+    router.push({
+      pathname: '/search',
+      query: {
+        location,
+        checkIn: checkIn?.toISOString(),
+        checkOut: checkOut?.toISOString(),
+        guests: JSON.stringify(guests),
+      },
+    });
+  };
+
+  const dateRangeStyle =
+    'left-4 right-4 searchbar:left-auto searchbar:right-1/2 searchbar:translate-x-1/2 searchbar:w-[850px]';
+
   return (
     <>
       <div className={`${isActiveHeader ? 'visible' : 'invisible'} px-4`}>
@@ -83,12 +111,14 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
             !isActiveHeader && 'translate-y-[-75px] transform scale-50 opacity-0 z-[100]'
           } max-w-[850px] mx-auto mt-2 rounded-full bg-white border border-gray-200 duration-300 hidden md:flex`}
         >
-          <div
+          <form
+            action="/search"
             className={`${
               menu === EAppHeaderSelectedMenu.EXPERIENCES
                 ? 'grid-cols-2'
-                : 'grid-cols-[1fr,0.7fr,0.7fr,auto]'
+                : 'grid-cols-[0.8fr,0.7fr,0.7fr,auto] lg:grid-cols-[1fr,0.7fr,0.7fr,auto]'
             } grid flex-grow`}
+            onSubmit={handleOnSubmit}
           >
             {/* location */}
             <AppSearchItem
@@ -109,15 +139,15 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
                 handleOnBlur();
               }}
             >
-              <div className="absolute left-0 px-8 pt-2 pb-8 mt-3 bg-white rounded-3xl shadow-arround-bold">
-                <div className="mt-6">
+              <AppSearchItemContent className="left-0">
+                <div className="py-4">
                   <h2 className="mb-4 text-xs font-bold">GO ANYWHERE, ANYTIME</h2>
                   <button className="flex justify-between w-[436px] px-6 py-4 border border-gray-200 rounded-full shadow-md text-primary">
                     <span className="font-bold">I&apos;m flexible</span>{' '}
                     <ChevronRightIcon className="h-6" />
                   </button>
                 </div>
-              </div>
+              </AppSearchItemContent>
             </AppSearchItem>
 
             {menu === EAppHeaderSelectedMenu.PLACES_TO_STAY ? (
@@ -129,15 +159,14 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
                   placeholder="Add dates"
                   active={searchMenu === ESearchMenu.CHECK_IN}
                   value={formatCheckDate(checkIn)}
-                  onFocus={() => {
-                    // setFocusedDate(EFocusedDate.CHECK_IN);
-                    setSearchMenu(ESearchMenu.CHECK_IN);
-                  }}
+                  onFocus={() => setSearchMenu(ESearchMenu.CHECK_IN)}
                   onBlur={handleOnBlur}
                   onClear={resetDate}
                 >
                   {/* date picker */}
-                  <AppDateRange />
+                  <AppSearchItemContent className={dateRangeStyle}>
+                    <AppDateRange />
+                  </AppSearchItemContent>
                 </AppSearchItem>
                 {/* check out */}
                 <AppSearchItem
@@ -146,15 +175,14 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
                   placeholder="Add dates"
                   active={searchMenu === ESearchMenu.CHECK_OUT}
                   value={formatCheckDate(checkOut)}
-                  onFocus={() => {
-                    // setFocusedDate(EFocusedDate.CHECK_OUT);
-                    setSearchMenu(ESearchMenu.CHECK_OUT);
-                  }}
+                  onFocus={() => setSearchMenu(ESearchMenu.CHECK_OUT)}
                   onBlur={handleOnBlur}
                   onClear={resetDate}
                 >
                   {/* date picker */}
-                  <AppDateRange />
+                  <AppSearchItemContent className={dateRangeStyle}>
+                    <AppDateRange />
+                  </AppSearchItemContent>
                 </AppSearchItem>
                 <AppSearchItem
                   relative
@@ -162,14 +190,17 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
                   title="Guests"
                   placeholder="Add guests"
                   active={searchMenu === ESearchMenu.GUESTS}
-                  value={guests}
+                  value={formatGuests()}
                   onFocus={() => setSearchMenu(ESearchMenu.GUESTS)}
                   onBlur={handleOnBlur}
-                  onClear={() => {}}
+                  onClear={() => {
+                    dispatch({ type: DATA_ACTION_TYPES.RESET_GUESTS });
+                    handleOnBlur();
+                  }}
                   isSearch={!!searchMenu}
                   onSearch={() => setSearchMenu(ESearchMenu.LOCATION)}
                 >
-                  <div className="absolute right-0 px-8 pt-2 pb-4 mt-3 bg-white rounded-3xl shadow-arround-bold w-96">
+                  <AppSearchItemContent className="right-0 w-96">
                     <div>
                       <div className="flex py-4 border-b border-gray-200 border-opacity-70">
                         <div className="flex-grow">
@@ -178,16 +209,16 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
                             Ages 13 or above
                           </p>
                         </div>
-
-                        <div className="flex items-center">
-                          <button className="p-[7px] border border-gray-300 rounded-full border-opacity-70">
-                            <MinusIcon className="h-4 text-gray-300" />
-                          </button>
-                          <span className="inline-block text-center w-9">0</span>
-                          <button className="p-[7px] border border-gray-300 rounded-full border-opacity-70">
-                            <PlusIcon className="h-4 text-gray-300" />
-                          </button>
-                        </div>
+                        <AppCounter
+                          value={guests.adults}
+                          maxValue={16}
+                          onIncrease={() =>
+                            dispatch({ type: DATA_ACTION_TYPES.INCREASE_ADULTS })
+                          }
+                          onDescrease={() =>
+                            dispatch({ type: DATA_ACTION_TYPES.DECREASE_ADULTS })
+                          }
+                        />
                       </div>
                     </div>
                     <div>
@@ -196,16 +227,16 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
                           <h2 className="font-medium">Children</h2>
                           <p className="text-sm leading-4 text-gray-300">Ages 2-12</p>
                         </div>
-
-                        <div className="flex items-center">
-                          <button className="p-[7px] border border-gray-300 rounded-full border-opacity-70">
-                            <MinusIcon className="h-4 text-gray-300" />
-                          </button>
-                          <span className="inline-block text-center w-9">0</span>
-                          <button className="p-[7px] border border-gray-300 rounded-full border-opacity-70">
-                            <PlusIcon className="h-4 text-gray-300" />
-                          </button>
-                        </div>
+                        <AppCounter
+                          value={guests.children}
+                          maxValue={5}
+                          onIncrease={() =>
+                            dispatch({ type: DATA_ACTION_TYPES.INCREASE_CHILDREN })
+                          }
+                          onDescrease={() =>
+                            dispatch({ type: DATA_ACTION_TYPES.DECREASE_CHILDREN })
+                          }
+                        />
                       </div>
                     </div>
                     <div>
@@ -214,19 +245,19 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
                           <h2 className="font-medium">Infants</h2>
                           <p className="text-sm leading-4 text-gray-300">Under 2</p>
                         </div>
-
-                        <div className="flex items-center">
-                          <button className="p-[7px] border border-gray-300 rounded-full border-opacity-70">
-                            <MinusIcon className="h-4 text-gray-300" />
-                          </button>
-                          <span className="inline-block text-center w-9">0</span>
-                          <button className="p-[7px] border border-gray-300 rounded-full border-opacity-70">
-                            <PlusIcon className="h-4 text-gray-300" />
-                          </button>
-                        </div>
+                        <AppCounter
+                          value={guests.infants}
+                          maxValue={5}
+                          onIncrease={() =>
+                            dispatch({ type: DATA_ACTION_TYPES.INCREASE_INFANTS })
+                          }
+                          onDescrease={() =>
+                            dispatch({ type: DATA_ACTION_TYPES.DECREASE_INFANTS })
+                          }
+                        />
                       </div>
                     </div>
-                  </div>
+                  </AppSearchItemContent>
                 </AppSearchItem>
               </>
             ) : (
@@ -240,13 +271,15 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
                 onBlur={handleOnBlur}
                 onClear={resetDate}
                 isSearch={!!searchMenu}
-                onSearch={() => setSearchMenu(ESearchMenu.LOCATION)}
+                onSearch={() => {}}
               >
                 {/* date picker */}
-                <AppDateRange />
+                <AppSearchItemContent className={dateRangeStyle}>
+                  <AppDateRange />
+                </AppSearchItemContent>
               </AppSearchItem>
             )}
-          </div>
+          </form>
         </div>
       </div>
     </>
