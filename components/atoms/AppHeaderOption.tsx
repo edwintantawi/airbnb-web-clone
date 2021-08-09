@@ -7,7 +7,7 @@ interface IAppHeaderOptionProps extends PropsWithChildren<any> {
   onClick?: () => void;
 }
 
-const AppHeaderMenuItem: FC<IAppHeaderOptionProps> = ({
+const AppHeaderOption: FC<IAppHeaderOptionProps> = ({
   children,
   active,
   isSnap,
@@ -35,4 +35,4 @@ const AppHeaderMenuItem: FC<IAppHeaderOptionProps> = ({
   );
 };
 
-export default AppHeaderMenuItem;
+export default AppHeaderOption;

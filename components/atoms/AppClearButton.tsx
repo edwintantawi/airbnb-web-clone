@@ -1,5 +1,6 @@
-import { XIcon } from '@heroicons/react/outline';
 import { FC } from 'react';
+// icons
+import { XIcon } from '@heroicons/react/outline';
 
 interface AppClearButtonProps {
   active: boolean;

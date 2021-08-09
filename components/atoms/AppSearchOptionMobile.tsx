@@ -134,9 +134,9 @@ const Step2 = ({ handleOnNext }) => {
       <div className="overflow-y-auto text-center ">
         <AppDateRange months={1} />
       </div>
-      <div className="fixed bottom-0 left-0 right-0 grid items-center grid-cols-2 p-4 text-lg bg-white border-t border-gray-200">
+      <div className="fixed bottom-0 left-0 right-0 grid items-center grid-cols-2 p-4 text-lg bg-white border-t border-gray-200 gap-x-4">
         <span
-          className="text-base underline justify-self-start"
+          className="px-4 py-3 text-base text-center text-gray-500 underline duration-300 border border-gray-200 rounded-lg active:scale-95"
           onClick={() => {
             if (checkIn && checkOut) {
               dispatch({ type: DATA_ACTION_TYPES.RESET_DATES });
@@ -208,8 +208,11 @@ const Step3 = ({ handleOnNext }) => {
           />
         </div>
       </div>
-      <div className="fixed bottom-0 left-0 right-0 grid items-center grid-cols-2 p-4 text-lg bg-white border-t border-gray-200">
-        <span className="text-base underline justify-self-start" onClick={handleOnNext}>
+      <div className="fixed bottom-0 left-0 right-0 grid items-center grid-cols-2 p-4 text-lg bg-white border-t border-gray-200 gap-x-4">
+        <span
+          className="px-4 py-3 text-base text-center text-gray-500 underline duration-300 border border-gray-200 rounded-lg active:scale-95"
+          onClick={handleOnNext}
+        >
           Skip
         </span>
         <button
