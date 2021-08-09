@@ -1,6 +1,6 @@
 .rdrCalendarWrapper {
   font-size: 16px !important;
-  width: 100% !important;
+  width: 328px !important;
 }
 
 .rdrWeekDay {
@@ -15,13 +15,6 @@
 
 .rdrMonths {
   justify-content: space-between !important;
-}
-
-.rdrMonths .rdrMonth:first-child {
-  padding-right: 29px;
-}
-.rdrMonths .rdrMonth:last-child {
-  padding-left: 29px;
 }
 
 .rdrCalendarWrapper {
@@ -202,6 +195,18 @@ span.rdrDayNumber span {
   .rdrDayStartPreview,
   .rdrDayEndPreview {
     height: 48px !important;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .rdrMonths .rdrMonth:first-child {
+    padding-right: 29px;
+  }
+  .rdrMonths .rdrMonth:last-child {
+    padding-left: 29px;
+  }
+  .rdrCalendarWrapper {
+    width: 100% !important;
   }
 }
 
