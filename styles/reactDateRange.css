@@ -58,8 +58,8 @@
 .rdrEndEdge,
 .rdrInRange,
 .rdrDayNumber {
-  height: 50px !important;
-  width: 50px !important;
+  height: 44px !important;
+  width: 44px !important;
 }
 
 .rdrSelected,
@@ -95,7 +95,7 @@
 .rdrDayEndPreview {
   border-radius: 999px !important;
   top: 0 !important;
-  height: 50px !important;
+  height: 44px !important;
   border: 1px solid black !important;
 }
 
@@ -120,4 +120,71 @@ span.rdrDayNumber span {
 .rdrDayPassive .rdrDayNumber,
 .rdrDayDisabled .rdrDayNumber {
   background-color: white !important;
+}
+
+@media screen and (min-width: 810px) {
+  .rdrDay,
+  .rdrInRangem,
+  .rdrStartEdge,
+  .rdrEndEdge,
+  .rdrInRange,
+  .rdrDayNumber {
+    height: 45px !important;
+    width: 45px !important;
+  }
+
+  .rdrDayStartPreview,
+  .rdrDayEndPreview {
+    height: 45px !important;
+  }
+}
+
+@media screen and (min-width: 836px) {
+  .rdrDay,
+  .rdrInRangem,
+  .rdrStartEdge,
+  .rdrEndEdge,
+  .rdrInRange,
+  .rdrDayNumber {
+    height: 46px !important;
+    width: 46px !important;
+  }
+
+  .rdrDayStartPreview,
+  .rdrDayEndPreview {
+    height: 46px !important;
+  }
+}
+
+@media screen and (min-width: 858px) {
+  .rdrDay,
+  .rdrInRangem,
+  .rdrStartEdge,
+  .rdrEndEdge,
+  .rdrInRange,
+  .rdrDayNumber {
+    height: 47px !important;
+    width: 47px !important;
+  }
+
+  .rdrDayStartPreview,
+  .rdrDayEndPreview {
+    height: 47px !important;
+  }
+}
+@media screen and (min-width: 880px) {
+  .rdrDay,
+  .rdrInRangem,
+  .rdrStartEdge,
+  .rdrEndEdge,
+  .rdrInRange,
+  .rdrDayNumber {
+    height: 50px !important;
+    width: 50px !important;
+  }
+
+  .rdrDayStartPreview,
+  .rdrDayEndPreview {
+    height: 50px !important;
+  }
 }
