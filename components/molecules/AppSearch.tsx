@@ -1,14 +1,17 @@
-import React, { FC, useState } from 'react';
-import { DateRange } from 'react-date-range';
+import React, { FC, FocusEvent, useState } from 'react';
+import { format } from 'date-fns';
 // components
 import { EAppHeaderSelectedMenu } from '@/components/organisms/AppHeader';
 import AppSearchItem from '@/components/molecules/AppSearchItem';
+import AppDateRange from '@/components/atoms/AppDateRange';
 // data
 import { useDataContext } from 'hooks/useDataContext';
 import { DATA_ACTION_TYPES } from 'context/actionTypes';
 // styles
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
+// icons
+import { ChevronRightIcon, PlusIcon, MinusIcon } from '@heroicons/react/outline';
 
 enum EFocusedDate {
   CHECK_IN = 'startDate',
@@ -30,22 +33,46 @@ interface IAppSearchProps {
 const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
   const [searchMenu, setSearchMenu] = useState<ESearchMenu | null>(null);
   // const [focusedDate, setFocusedDate] = useState<EFocusedDate>(EFocusedDate.CHECK_IN);
-  // const [isActiveCalendar, setIsActiveCalendar] = useState<boolean>(false);
   // data
   const [{ location, checkIn, checkOut, guests }, dispatch] = useDataContext();
   // handler
-  const handleOnBlur = () => setSearchMenu(null);
+  const handleOnBlur = (event?: FocusEvent<HTMLElement>) => {
+    const { relatedTarget } = event || {};
+    if (!relatedTarget) {
+      setSearchMenu(null);
+      return;
+    }
 
-  // const selectionRange = {
-  //   startDate: checkIn,
-  //   endDate: checkOut,
-  //   key: 'selection',
-  // };
+    const relatedTargetClassList = Array.from((relatedTarget as Element)?.classList);
+    const result = relatedTargetClassList.some(
+      (className) => className.slice(0, 3) === 'rdr'
+    );
+    console.log('class:', relatedTargetClassList);
+    console.log('result:', result);
+    if (!result) setSearchMenu(null);
+  };
 
-  const handleDatePicker = (range) => {
-    const { startDate, endDate } = range.selection;
-    dispatch({ type: DATA_ACTION_TYPES.SET_CHECK_IN, payload: startDate });
-    dispatch({ type: DATA_ACTION_TYPES.SET_CHECK_OUT, payload: endDate });
+  const formatCheckDate = (date: Date) => {
+    if (!date) return false;
+    return format(date, 'MMM d');
+  };
+
+  const rangeDate = (startDate, endDate) => {
+    if (!startDate && !endDate) return false;
+    const template = `${formatCheckDate(checkIn)} - ${formatCheckDate(checkOut)}`;
+    return template;
+  };
+
+  const resetDate = () => {
+    dispatch({
+      type: DATA_ACTION_TYPES.SET_CHECK_IN,
+      payload: null,
+    });
+    dispatch({
+      type: DATA_ACTION_TYPES.SET_CHECK_OUT,
+      payload: null,
+    });
+    handleOnBlur();
   };
 
   return (
@@ -66,6 +93,7 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
             {/* location */}
             <AppSearchItem
               separator
+              relative
               type="inputText"
               title="Location"
               placeholder="Where are you going?"
@@ -80,7 +108,17 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
                 dispatch({ type: DATA_ACTION_TYPES.SET_LOCATION, payload: '' });
                 handleOnBlur();
               }}
-            />
+            >
+              <div className="absolute left-0 px-8 pt-2 pb-8 mt-3 bg-white rounded-3xl shadow-arround-bold">
+                <div className="mt-6">
+                  <h2 className="mb-4 text-xs font-bold">GO ANYWHERE, ANYTIME</h2>
+                  <button className="flex justify-between w-[436px] px-6 py-4 border border-gray-200 rounded-full shadow-md text-primary">
+                    <span className="font-bold">I&apos;m flexible</span>{' '}
+                    <ChevronRightIcon className="h-6" />
+                  </button>
+                </div>
+              </div>
+            </AppSearchItem>
 
             {menu === EAppHeaderSelectedMenu.PLACES_TO_STAY ? (
               <>
@@ -90,37 +128,36 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
                   title="Check in"
                   placeholder="Add dates"
                   active={searchMenu === ESearchMenu.CHECK_IN}
-                  value={new Date(checkIn).toLocaleString('en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                  })}
+                  value={formatCheckDate(checkIn)}
                   onFocus={() => {
-                    // setIsActiveCalendar(true);
                     // setFocusedDate(EFocusedDate.CHECK_IN);
                     setSearchMenu(ESearchMenu.CHECK_IN);
                   }}
                   onBlur={handleOnBlur}
-                  onClear={() => {}}
-                />
+                  onClear={resetDate}
+                >
+                  {/* date picker */}
+                  <AppDateRange />
+                </AppSearchItem>
                 {/* check out */}
                 <AppSearchItem
                   separator
                   title="Check out"
                   placeholder="Add dates"
                   active={searchMenu === ESearchMenu.CHECK_OUT}
-                  value={new Date(checkOut).toLocaleString('en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                  })}
+                  value={formatCheckDate(checkOut)}
                   onFocus={() => {
-                    // setIsActiveCalendar(true);
                     // setFocusedDate(EFocusedDate.CHECK_OUT);
                     setSearchMenu(ESearchMenu.CHECK_OUT);
                   }}
                   onBlur={handleOnBlur}
-                  onClear={() => {}}
-                />
+                  onClear={resetDate}
+                >
+                  {/* date picker */}
+                  <AppDateRange />
+                </AppSearchItem>
                 <AppSearchItem
+                  relative
                   withSearch
                   title="Guests"
                   placeholder="Add guests"
@@ -131,7 +168,66 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
                   onClear={() => {}}
                   isSearch={!!searchMenu}
                   onSearch={() => setSearchMenu(ESearchMenu.LOCATION)}
-                />
+                >
+                  <div className="absolute right-0 px-8 pt-2 pb-4 mt-3 bg-white rounded-3xl shadow-arround-bold w-96">
+                    <div>
+                      <div className="flex py-4 border-b border-gray-200 border-opacity-70">
+                        <div className="flex-grow">
+                          <h2 className="font-medium">Adults</h2>
+                          <p className="text-sm leading-4 text-gray-300">
+                            Ages 13 or above
+                          </p>
+                        </div>
+
+                        <div className="flex items-center">
+                          <button className="p-[7px] border border-gray-300 rounded-full border-opacity-70">
+                            <MinusIcon className="h-4 text-gray-300" />
+                          </button>
+                          <span className="inline-block text-center w-9">0</span>
+                          <button className="p-[7px] border border-gray-300 rounded-full border-opacity-70">
+                            <PlusIcon className="h-4 text-gray-300" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex py-4 border-b border-gray-200 border-opacity-70">
+                        <div className="flex-grow">
+                          <h2 className="font-medium">Children</h2>
+                          <p className="text-sm leading-4 text-gray-300">Ages 2-12</p>
+                        </div>
+
+                        <div className="flex items-center">
+                          <button className="p-[7px] border border-gray-300 rounded-full border-opacity-70">
+                            <MinusIcon className="h-4 text-gray-300" />
+                          </button>
+                          <span className="inline-block text-center w-9">0</span>
+                          <button className="p-[7px] border border-gray-300 rounded-full border-opacity-70">
+                            <PlusIcon className="h-4 text-gray-300" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex py-4">
+                        <div className="flex-grow">
+                          <h2 className="font-medium">Infants</h2>
+                          <p className="text-sm leading-4 text-gray-300">Under 2</p>
+                        </div>
+
+                        <div className="flex items-center">
+                          <button className="p-[7px] border border-gray-300 rounded-full border-opacity-70">
+                            <MinusIcon className="h-4 text-gray-300" />
+                          </button>
+                          <span className="inline-block text-center w-9">0</span>
+                          <button className="p-[7px] border border-gray-300 rounded-full border-opacity-70">
+                            <PlusIcon className="h-4 text-gray-300" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </AppSearchItem>
               </>
             ) : (
               <AppSearchItem
@@ -139,37 +235,19 @@ const AppSearchMenu: FC<IAppSearchProps> = ({ menu, isActiveHeader }) => {
                 title="Date"
                 placeholder="Add when you want to go"
                 active={searchMenu === ESearchMenu.GUESTS}
-                value={guests}
+                value={rangeDate(checkIn, checkOut)}
                 onFocus={() => setSearchMenu(ESearchMenu.GUESTS)}
                 onBlur={handleOnBlur}
-                onClear={() => {}}
+                onClear={resetDate}
                 isSearch={!!searchMenu}
                 onSearch={() => setSearchMenu(ESearchMenu.LOCATION)}
-              />
+              >
+                {/* date picker */}
+                <AppDateRange />
+              </AppSearchItem>
             )}
           </div>
         </div>
-        {/* date picker */}
-        {/* <div
-          className={`${
-            isActiveCalendar ? 'flex' : 'hidden'
-          } absolute right-1/2 translate-x-1/2`}
-        >
-          <div className="rounded-3xl w-[850px] overflow-hidden shadow-arround-bold mt-3">
-            <DateRange
-              ranges={[selectionRange]}
-              onChange={handleDatePicker}
-              months={2}
-              direction="horizontal"
-              className="p-8"
-              showMonthAndYearPickers={false}
-              rangeColors={['#F7F7F7']}
-              minDate={new Date()}
-              showDateDisplay={false}
-              monthDisplayFormat="MMMM YYY"
-            />
-          </div>
-        </div> */}
       </div>
     </>
   );

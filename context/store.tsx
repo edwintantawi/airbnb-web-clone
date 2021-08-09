@@ -3,15 +3,15 @@ import { dataReducer } from './reducer';
 
 interface IInitialState {
   location: string;
-  checkIn: Date;
-  checkOut: Date;
+  checkIn: Date | null;
+  checkOut: Date | null;
   guests: 0;
 }
 
 export const initialState: IInitialState = {
   location: '',
-  checkIn: new Date(),
-  checkOut: new Date(),
+  checkIn: null,
+  checkOut: null,
   guests: 0,
 };
 
