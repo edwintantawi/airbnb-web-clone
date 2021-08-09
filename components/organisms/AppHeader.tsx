@@ -2,23 +2,20 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 // components
 import AppLogo, { EAppLogo } from '@/components/atoms/AppLogo';
-import AppSearch from '@/components/molecules/AppSearch';
-import AppHeaderMenuItem from '@/components/atoms/AppHeaderMenuItem';
-import AppSearchMobile from '@/components/molecules/AppSearchMobile';
+import AppSearchBar from '@/components/molecules/AppSearchBar';
+import AppHeaderOption from '@/components/atoms/AppHeaderOption';
+import AppSearchBarMobile from '@/components/molecules/AppSearchBarMobile';
 // icons
 import { GlobeAltIcon, MenuIcon, SearchIcon } from '@heroicons/react/outline';
 import { UserCircleIcon } from '@heroicons/react/solid';
-
-export enum EAppHeaderSelectedMenu {
-  PLACES_TO_STAY = 'placesToStay',
-  EXPERIENCES = 'experiences',
-}
+// typings
+import { EHeaderOpions } from 'typings';
 
 const AppHeader = ({ exploreNearby }) => {
   const [isSnapTop, setIsSnapTop] = useState<boolean>(true);
   const [isActiveSearch, setIsActiveSearch] = useState<boolean>(true);
-  const [activeMenu, setActiveMenu] = useState<EAppHeaderSelectedMenu | null>(
-    EAppHeaderSelectedMenu.PLACES_TO_STAY
+  const [activeMenu, setActiveMenu] = useState<EHeaderOpions | null>(
+    EHeaderOpions.PLACES_TO_STAY
   );
 
   const handleOnScroll = () => {
@@ -87,27 +84,27 @@ const AppHeader = ({ exploreNearby }) => {
           {/* middle side navigation */}
           <div className="relative flex flex-col items-center justify-center order-last col-span-2 xl:order-none xl:col-span-1">
             <div className="text-white">
-              <AppHeaderMenuItem
+              <AppHeaderOption
                 isSnap={isSnapTop}
                 isActiveHeader={isActiveSearch}
-                active={activeMenu === EAppHeaderSelectedMenu.PLACES_TO_STAY}
-                onClick={() => setActiveMenu(EAppHeaderSelectedMenu.PLACES_TO_STAY)}
+                active={activeMenu === EHeaderOpions.PLACES_TO_STAY}
+                onClick={() => setActiveMenu(EHeaderOpions.PLACES_TO_STAY)}
               >
                 Places to stay
-              </AppHeaderMenuItem>
-              <AppHeaderMenuItem
+              </AppHeaderOption>
+              <AppHeaderOption
                 isSnap={isSnapTop}
                 isActiveHeader={isActiveSearch}
-                active={activeMenu === EAppHeaderSelectedMenu.EXPERIENCES}
-                onClick={() => setActiveMenu(EAppHeaderSelectedMenu.EXPERIENCES)}
+                active={activeMenu === EHeaderOpions.FIND_EXPERIENCES}
+                onClick={() => setActiveMenu(EHeaderOpions.FIND_EXPERIENCES)}
               >
                 Experiences
-              </AppHeaderMenuItem>
-              <AppHeaderMenuItem isSnap={isSnapTop} isActiveHeader={isActiveSearch}>
+              </AppHeaderOption>
+              <AppHeaderOption isSnap={isSnapTop} isActiveHeader={isActiveSearch}>
                 <Link href="#">
                   <a>Online Experiences</a>
                 </Link>
-              </AppHeaderMenuItem>
+              </AppHeaderOption>
             </div>
           </div>
           {/* right side */}
@@ -141,9 +138,9 @@ const AppHeader = ({ exploreNearby }) => {
           </div>
         </div>
         {/* main search bar */}
-        <AppSearch menu={activeMenu} isActiveHeader={isActiveSearch} />
+        <AppSearchBar menu={activeMenu} isActiveHeader={isActiveSearch} />
         {/* mobile search bar */}
-        <AppSearchMobile exploreNearby={exploreNearby} />
+        <AppSearchBarMobile exploreNearby={exploreNearby} />
       </header>
       {/* background layer */}
       {isActiveSearch && !isSnapTop && (

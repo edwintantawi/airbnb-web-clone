@@ -3,19 +3,22 @@ import React, { FC, MouseEvent, useState } from 'react';
 import { DATA_ACTION_TYPES } from 'context/actionTypes';
 import { useDataContext } from 'hooks/useDataContext';
 // components
-import IAppClearButton from '@/components/atoms/AppClearButton';
+import AppClearButtonProps from '@/components/atoms/AppClearButton';
 import AppNearby from '@/components/atoms/AppNearby';
+import AppSearchOptionMobile from '@/components/atoms/AppSearchOptionMobile';
+import AppMobileNavigation from '@/components/atoms/AppNavigationMobile';
 // icons
 import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@heroicons/react/outline';
 // typings
 import { IExploreNearby } from 'typings';
 
-interface IAppSearchMobile {
+interface IAppSearchBarMobileProps {
   exploreNearby: IExploreNearby[];
 }
 
-const AppSearchMobile: FC<IAppSearchMobile> = ({ exploreNearby }) => {
+const AppSearchBarMobile: FC<IAppSearchBarMobileProps> = ({ exploreNearby }) => {
   const [activeSearch, setActiveSearch] = useState<boolean>(false);
+  const [activeStep, setActiveStep] = useState<boolean>(false);
   const [{ location }, dispatch] = useDataContext();
 
   const handleSectionClick = (event: MouseEvent<HTMLElement>) => {
@@ -38,15 +41,24 @@ const AppSearchMobile: FC<IAppSearchMobile> = ({ exploreNearby }) => {
       {/* mobile search section */}
       <section
         id="close"
-        className={`fixed inset-0 bg-white rounded-t-3xl px-4 ${
+        className={`z-50 fixed inset-0 bg-white rounded-t-3xl px-4 ${
           activeSearch ? 'block' : 'hidden'
         }`}
         onClick={handleSectionClick}
       >
-        <div className="flex items-center h-12 mt-4">
-          <button onClick={() => setActiveSearch(false)} className="p-1 mr-4">
+        <form
+          className="flex items-center h-12 mt-4"
+          onSubmit={(event) => {
+            event.preventDefault();
+            setActiveSearch(false);
+            setTimeout(() => {
+              setActiveStep(true);
+            }, 200);
+          }}
+        >
+          <span onClick={() => setActiveSearch(false)} className="p-1 mr-4">
             <ChevronLeftIcon className="h-6" />
-          </button>
+          </span>
           <input
             type="text"
             placeholder="Where are you going?"
@@ -56,13 +68,13 @@ const AppSearchMobile: FC<IAppSearchMobile> = ({ exploreNearby }) => {
             }
             className="flex-grow mr-4 placeholder-gray-300"
           />
-          <IAppClearButton
+          <AppClearButtonProps
             active={location}
             onClick={() =>
               dispatch({ type: DATA_ACTION_TYPES.SET_LOCATION, payload: '' })
             }
           />
-        </div>
+        </form>
         <div className="mt-6">
           <h2 className="mb-4 text-xs font-bold">GO ANYWHERE, ANYTIME</h2>
           <button className="flex justify-between w-full px-6 py-4 border border-gray-200 rounded-full shadow-md text-primary">
@@ -77,8 +89,17 @@ const AppSearchMobile: FC<IAppSearchMobile> = ({ exploreNearby }) => {
           ))}
         </div>
       </section>
+      <AppSearchOptionMobile
+        active={activeStep}
+        onClose={() => {
+          setActiveSearch(true);
+          setActiveStep(false);
+        }}
+      />
+      {/* bottom navigation */}
+      <AppMobileNavigation />
     </>
   );
 };
 
-export default AppSearchMobile;
+export default AppSearchBarMobile;

@@ -22,7 +22,7 @@ const AppCounter: FC<IAppCounterProps> = ({
         tabIndex={0}
         className={`${
           !value && 'cursor-not-allowed opacity-40'
-        } btnDecrease p-[7px] border border-gray-300 rounded-full border-opacity-70 inline-block`}
+        } btnDecrease p-[7px] border border-gray-300 rounded-full border-opacity-70 inline-block outline-none active:scale-90 duration-300`}
         onClick={onDescrease}
       >
         <MinusIcon className="h-4 text-gray-300" />
@@ -33,7 +33,7 @@ const AppCounter: FC<IAppCounterProps> = ({
         tabIndex={0}
         className={`${
           value === maxValue && 'cursor-not-allowed opacity-40'
-        } btnIncrease p-[7px] border border-gray-300 rounded-full border-opacity-70 inline-block`}
+        } btnIncrease p-[7px] border border-gray-300 rounded-full border-opacity-70 inline-block outline-none active:scale-90 duration-300`}
         onClick={onIncrease}
       >
         <PlusIcon className="h-4 text-gray-300" />

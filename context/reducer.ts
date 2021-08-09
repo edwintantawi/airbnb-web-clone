@@ -11,6 +11,8 @@ export const dataReducer = (state, action) => {
       return { ...state, checkIn: payload };
     case DATA_ACTION_TYPES.SET_CHECK_OUT:
       return { ...state, checkOut: payload };
+    case DATA_ACTION_TYPES.RESET_DATES:
+      return { ...state, checkOut: null, checkIn: null };
     case DATA_ACTION_TYPES.RESET_GUESTS:
       return { ...state, guests: initialState.guests };
     case DATA_ACTION_TYPES.INCREASE_ADULTS:

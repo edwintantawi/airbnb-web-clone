@@ -2,12 +2,12 @@ import { FC } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-interface IAppNearby {
+interface IAppNearbyProps {
   data: { location: string; img: string; distance: string };
   isSmall?: boolean;
 }
 
-const AppNearby: FC<IAppNearby> = ({ data, isSmall }) => {
+const AppNearby: FC<IAppNearbyProps> = ({ data, isSmall }) => {
   return (
     <Link href="#">
       <a>

@@ -1,4 +1,11 @@
-const AppSection = ({ title, className, children }) => {
+import { FC, PropsWithChildren } from 'react';
+
+interface IAppSectionProps extends PropsWithChildren<any> {
+  title: string;
+  className: string;
+}
+
+const AppSection: FC<IAppSectionProps> = ({ title, className, children }) => {
   return (
     <section className="my-10">
       <div className="container">

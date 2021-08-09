@@ -1,10 +1,10 @@
 import React, { ChangeEvent, FC, FocusEvent, PropsWithChildren } from 'react';
 // components
-import IAppClearButton from '@/components/atoms/AppClearButton';
+import AppClearButtonProps from '@/components/atoms/AppClearButton';
 // icons
 import { SearchIcon } from '@heroicons/react/outline';
 
-interface IAppSearchItemProps extends PropsWithChildren<any> {
+interface IAppSearchOptionButtonProps extends PropsWithChildren<any> {
   relative?: boolean;
   withSearch?: boolean;
   separator?: boolean;
@@ -21,7 +21,7 @@ interface IAppSearchItemProps extends PropsWithChildren<any> {
   onSearch?: () => void;
 }
 
-const AppSearchItem: FC<IAppSearchItemProps> = ({
+const AppSearchOptionButton: FC<IAppSearchOptionButtonProps> = ({
   relative,
   children,
   separator,
@@ -71,7 +71,7 @@ const AppSearchItem: FC<IAppSearchItemProps> = ({
       </div>
 
       {/* clear icon */}
-      <IAppClearButton
+      <AppClearButtonProps
         onClick={onClear}
         active={value}
         isFocus={active}
@@ -101,4 +101,4 @@ const AppSearchItem: FC<IAppSearchItemProps> = ({
   );
 };
 
-export default AppSearchItem;
+export default AppSearchOptionButton;

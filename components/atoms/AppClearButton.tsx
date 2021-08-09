@@ -1,7 +1,7 @@
 import { XIcon } from '@heroicons/react/outline';
 import { FC } from 'react';
 
-interface IAppClearButton {
+interface AppClearButtonProps {
   active: boolean;
   isFocus?: boolean;
   separator?: boolean;
@@ -13,7 +13,7 @@ const defaultProps = {
   separator: false,
 };
 
-const IAppClearButton: FC<IAppClearButton> = ({
+const AppClearButtonProps: FC<AppClearButtonProps> = ({
   onClick,
   active,
   isFocus,
@@ -35,6 +35,6 @@ const IAppClearButton: FC<IAppClearButton> = ({
   );
 };
 
-IAppClearButton.defaultProps = defaultProps;
+AppClearButtonProps.defaultProps = defaultProps;
 
-export default IAppClearButton;
+export default AppClearButtonProps;

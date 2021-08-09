@@ -1,17 +1,13 @@
 import { FC, PropsWithChildren } from 'react';
 
-interface IAppHeaderMenuItem extends PropsWithChildren<any> {
+interface IAppHeaderOptionProps extends PropsWithChildren<any> {
   active?: boolean;
   isSnap?: boolean;
   isActiveHeader?: boolean;
   onClick?: () => void;
 }
 
-const defaultProps: IAppHeaderMenuItem = {
-  active: false,
-};
-
-const AppHeaderMenuItem: FC<IAppHeaderMenuItem> = ({
+const AppHeaderMenuItem: FC<IAppHeaderOptionProps> = ({
   children,
   active,
   isSnap,
@@ -38,7 +34,5 @@ const AppHeaderMenuItem: FC<IAppHeaderMenuItem> = ({
     </span>
   );
 };
-
-AppHeaderMenuItem.defaultProps = defaultProps;
 
 export default AppHeaderMenuItem;

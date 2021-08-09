@@ -5,17 +5,17 @@ export enum EAppLogo {
   TEXT = 'text',
 }
 
-interface IAppLogo {
+interface IAppLogoProps {
   className?: string;
   type?: EAppLogo;
 }
 
-const defaultProps: IAppLogo = {
+const defaultProps: IAppLogoProps = {
   className: 'text-black',
   type: EAppLogo.TEXT,
 };
 
-const AppLogo: FC<IAppLogo> = ({ className, type }) => {
+const AppLogo: FC<IAppLogoProps> = ({ className, type }) => {
   switch (type) {
     case EAppLogo.LOGO:
       return (

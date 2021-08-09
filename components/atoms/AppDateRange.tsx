@@ -1,9 +1,14 @@
+import { FC } from 'react';
 import { DateRange } from 'react-date-range';
 // context
 import { DATA_ACTION_TYPES } from 'context/actionTypes';
 import { useDataContext } from 'hooks/useDataContext';
 
-const AppDateRange = () => {
+interface IAppDateRangeProps {
+  months?: number;
+}
+
+const AppDateRange: FC<IAppDateRangeProps> = ({ months }) => {
   const [{ checkIn, checkOut }, dispatch] = useDataContext();
 
   const selectionRange = {
@@ -19,11 +24,11 @@ const AppDateRange = () => {
   };
 
   return (
-    <div className="py-4 overflow-hidden rounded-3xl">
+    <div className="md:py-4 rounded-3xl">
       <DateRange
         ranges={[selectionRange]}
         onChange={handleDatePicker}
-        months={2}
+        months={months || 2}
         direction="horizontal"
         showMonthAndYearPickers={false}
         rangeColors={['#F7F7F7']}
