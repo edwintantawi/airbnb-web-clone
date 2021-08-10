@@ -28,10 +28,16 @@ enum ESearchMenu {
 interface IAppSearchBarProps {
   menu: EHeaderOpions | null;
   isActiveHeader: boolean;
+  searchPage?: boolean;
   closeSearch?: () => void;
 }
 
-const AppSearchBar: FC<IAppSearchBarProps> = ({ menu, isActiveHeader, closeSearch }) => {
+const AppSearchBar: FC<IAppSearchBarProps> = ({
+  menu,
+  isActiveHeader,
+  closeSearch,
+  searchPage,
+}) => {
   const router = useRouter();
   const [searchMenu, setSearchMenu] = useState<ESearchMenu | null>(null);
   // data
@@ -64,7 +70,7 @@ const AppSearchBar: FC<IAppSearchBarProps> = ({ menu, isActiveHeader, closeSearc
       setSearchMenu(ESearchMenu.LOCATION);
       return;
     }
-    // closeSearch();
+    if (searchPage) closeSearch();
     setSearchMenu(null);
 
     router.push({

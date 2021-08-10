@@ -179,6 +179,7 @@ const AppHeader: FC<AppHeaderProps> = ({ exploreNearby, searchPage, query }) => 
         <AppSearchBar
           menu={activeMenu}
           isActiveHeader={isActiveSearch}
+          searchPage={searchPage}
           closeSearch={() => setIsActiveSearch(false)}
         />
         {/* mobile search bar */}
