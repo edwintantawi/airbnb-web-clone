@@ -8,6 +8,7 @@ clone of airbnb web app with almost similar features
 - Typescript
 - TailwindCss
 - HeroIcons
+- MapBox
 
 - Eslint
 - Prettier
