@@ -16,7 +16,7 @@ const AppBanner = () => {
                 objectFit="cover"
                 className="rounded-xl"
                 placeholder="blur"
-                quality="90"
+                quality={50}
                 blurDataURL="/assets/banner.jpg"
               />
             </div>

@@ -15,6 +15,7 @@ const AppPlaceCard = ({ data }) => {
           className="w-full rounded-xl"
           placeholder="blur"
           blurDataURL={data.img}
+          quality={40}
         />
       </div>
       {/* right - detail */}

@@ -12,7 +12,7 @@ const AppHero = () => {
         objectPosition="center bottom"
         placeholder="blur"
         blurDataURL="/assets/hero.jpg"
-        quality="90"
+        quality={50}
       />
 
       <div className="container">
