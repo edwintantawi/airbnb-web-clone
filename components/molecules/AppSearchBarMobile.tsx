@@ -1,4 +1,5 @@
 import React, { FC, MouseEvent, useState } from 'react';
+import Link from 'next/link';
 // context
 import { DATA_ACTION_TYPES } from 'context/actionTypes';
 import { useDataContext } from 'hooks/useDataContext';
@@ -14,9 +15,13 @@ import { IExploreNearby } from 'typings';
 
 interface IAppSearchBarMobileProps {
   exploreNearby: IExploreNearby[];
+  searchPage?: boolean;
 }
 
-const AppSearchBarMobile: FC<IAppSearchBarMobileProps> = ({ exploreNearby }) => {
+const AppSearchBarMobile: FC<IAppSearchBarMobileProps> = ({
+  exploreNearby,
+  searchPage,
+}) => {
   const [activeSearch, setActiveSearch] = useState<boolean>(false);
   const [activeStep, setActiveStep] = useState<boolean>(false);
   const [{ location }, dispatch] = useDataContext();
@@ -29,15 +34,26 @@ const AppSearchBarMobile: FC<IAppSearchBarMobileProps> = ({ exploreNearby }) => 
   return (
     <>
       {/* mobile search button */}
-      <button
-        className="container block w-full md:hidden"
-        onClick={() => setActiveSearch(true)}
-      >
-        <div className="flex items-center justify-center h-12 bg-gray-100 rounded-full">
-          <SearchIcon className="h-5 mr-1 text-primary" />
-          <span className="text-sm font-medium tracking-wide">Where are you going?</span>
+      <div className="container block w-full md:hidden">
+        <div className="relative flex items-center justify-center h-12 bg-gray-100 rounded-full">
+          {searchPage && (
+            <Link href="/">
+              <a className="absolute p-2 duration-300 bg-white rounded-full shadow-md left-1 active:scale-90">
+                <ChevronLeftIcon className="h-5" />
+              </a>
+            </Link>
+          )}
+          <button
+            className="flex items-center justify-center w-full h-full mx-11"
+            onClick={() => setActiveSearch(true)}
+          >
+            <SearchIcon className="h-5 mr-1 text-primary" />
+            <span className="text-sm font-medium tracking-wide">
+              Where are you going?
+            </span>
+          </button>
         </div>
-      </button>
+      </div>
       {/* mobile search section */}
       <section
         id="close"
@@ -92,7 +108,7 @@ const AppSearchBarMobile: FC<IAppSearchBarMobileProps> = ({ exploreNearby }) => 
       <AppSearchOptionMobile
         active={activeStep}
         onClose={() => {
-          setActiveSearch(true);
+          setActiveSearch(false);
           setActiveStep(false);
         }}
       />

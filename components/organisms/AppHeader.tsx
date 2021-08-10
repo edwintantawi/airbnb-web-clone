@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Link from 'next/link';
 // components
 import AppLogo, { EAppLogo } from '@/components/atoms/AppLogo';
@@ -9,17 +9,27 @@ import AppSearchBarMobile from '@/components/molecules/AppSearchBarMobile';
 import { GlobeAltIcon, MenuIcon, SearchIcon } from '@heroicons/react/outline';
 import { UserCircleIcon } from '@heroicons/react/solid';
 // typings
-import { EHeaderOpions } from 'typings';
+import { EHeaderOpions, IExploreNearby } from 'typings';
+import { formatGuests, formatRangeDate } from 'utils';
+// context
 
-const AppHeader = ({ exploreNearby }) => {
-  const [isSnapTop, setIsSnapTop] = useState<boolean>(true);
-  const [isActiveSearch, setIsActiveSearch] = useState<boolean>(true);
+interface AppHeaderProps {
+  exploreNearby?: IExploreNearby[];
+  searchPage?: boolean;
+  query?: any;
+}
+
+const AppHeader: FC<AppHeaderProps> = ({ exploreNearby, searchPage, query }) => {
+  const [isSnapTop, setIsSnapTop] = useState<boolean>(searchPage ? false : true);
+  const [isActiveSearch, setIsActiveSearch] = useState<boolean>(
+    searchPage ? false : true
+  );
   const [activeMenu, setActiveMenu] = useState<EHeaderOpions | null>(
     EHeaderOpions.PLACES_TO_STAY
   );
 
   const handleOnScroll = () => {
-    const position = window.pageYOffset;
+    const position = window.scrollY;
     if (position >= 50) {
       setIsSnapTop(false);
       setIsActiveSearch(false);
@@ -39,9 +49,11 @@ const AppHeader = ({ exploreNearby }) => {
 
   useEffect(() => {
     // listen to scroll
-    window.addEventListener('scroll', handleOnScroll);
+    if (!searchPage) {
+      window.addEventListener('scroll', handleOnScroll);
+    }
     return () => window.removeEventListener('scroll', handleOnScroll);
-  }, []);
+  }, [searchPage]);
 
   return (
     <>
@@ -49,7 +61,11 @@ const AppHeader = ({ exploreNearby }) => {
         className={`${headerBehavior()} z-50 fixed top-0 w-full pt-5 duration-300 md:transition-none`}
       >
         {/* header top */}
-        <div className="container hidden md:grid md:grid-cols-[auto,1fr,auto] xl:grid-cols-[1.5fr,3fr,1.5fr] 2xl:grid-cols-[1fr,3fr,1fr] items-start">
+        <div
+          className={`${
+            searchPage ? 'px-7' : 'container'
+          } hidden md:grid md:grid-cols-[auto,1fr,auto] xl:grid-cols-[1.5fr,3fr,1.5fr] 2xl:grid-cols-[1fr,3fr,1fr] items-start`}
+        >
           {/* left side - logo */}
           <div className="flex items-center h-12">
             <Link href="/">
@@ -73,13 +89,35 @@ const AppHeader = ({ exploreNearby }) => {
           <button
             className={`${
               isActiveSearch && 'scale-[1.33] translate-y-[75px] opacity-0 z-[-50]'
-            } relative flex items-center h-12 pl-6 pr-2 mx-auto text-left transform bg-white border border-gray-200 rounded-full shadow-md cursor-pointer w-80 hover:shadow-lg md:absolute left-24 lg:left-0 lg:right-0 duration-200`}
+            } ${
+              searchPage ? 'pl-3' : 'pl-6'
+            } relative flex items-center h-12 pr-2 mx-auto text-left transform bg-white border border-gray-200 rounded-full shadow-md cursor-pointer min-w-[320px] hover:shadow-lg md:absolute left-24 lg:left-0 lg:right-0 duration-200`}
             onClick={() => setIsActiveSearch(true)}
           >
-            <span className="flex-grow text-sm font-medium tracking-wide text-gray-500">
-              Start your search
-            </span>
-            <SearchIcon className="h-8 p-2 text-white rounded-full bg-primary" />
+            {searchPage ? (
+              <span className="flex-grow text-sm font-medium tracking-wide text-gray-500">
+                <span className="px-4 py-1 border-r border-gay-200">
+                  {query.location || (
+                    <span className="font-normal text-gray-300">Location</span>
+                  )}
+                </span>
+                <span className="px-4 py-1 border-r border-gay-200">
+                  {formatRangeDate(query.checkIn, query.checkOut) || (
+                    <span className="font-normal text-gray-300">Add dates</span>
+                  )}
+                </span>
+                <span className="px-4 py-1">
+                  {formatGuests(query.guests, { noInfants: true }) || (
+                    <span className="font-normal text-gray-300">Add guests</span>
+                  )}
+                </span>
+              </span>
+            ) : (
+              <span className="flex-grow text-sm font-medium tracking-wide text-gray-500">
+                Start your search
+              </span>
+            )}
+            <SearchIcon className="h-8 p-2 ml-3 text-white rounded-full bg-primary" />
           </button>
           {/* middle side navigation */}
           <div className="relative flex flex-col items-center justify-center order-last col-span-2 xl:order-none xl:col-span-1">
@@ -101,7 +139,7 @@ const AppHeader = ({ exploreNearby }) => {
                 Experiences
               </AppHeaderOption>
               <AppHeaderOption isSnap={isSnapTop} isActiveHeader={isActiveSearch}>
-                <Link href="#">
+                <Link href="/">
                   <a>Online Experiences</a>
                 </Link>
               </AppHeaderOption>
@@ -109,7 +147,7 @@ const AppHeader = ({ exploreNearby }) => {
           </div>
           {/* right side */}
           <div className="flex items-center justify-end">
-            <Link href="#">
+            <Link href="/">
               <a
                 className={`${
                   isSnapTop
@@ -120,7 +158,7 @@ const AppHeader = ({ exploreNearby }) => {
                 Become a host
               </a>
             </Link>
-            <Link href="#">
+            <Link href="/">
               <a
                 className={`${
                   isSnapTop
@@ -138,9 +176,13 @@ const AppHeader = ({ exploreNearby }) => {
           </div>
         </div>
         {/* main search bar */}
-        <AppSearchBar menu={activeMenu} isActiveHeader={isActiveSearch} />
+        <AppSearchBar
+          menu={activeMenu}
+          isActiveHeader={isActiveSearch}
+          closeSearch={() => setIsActiveSearch(false)}
+        />
         {/* mobile search bar */}
-        <AppSearchBarMobile exploreNearby={exploreNearby} />
+        <AppSearchBarMobile exploreNearby={exploreNearby || []} searchPage={searchPage} />
       </header>
       {/* background layer */}
       {isActiveSearch && !isSnapTop && (

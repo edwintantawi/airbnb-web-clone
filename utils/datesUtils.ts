@@ -1,13 +1,24 @@
 import { format } from 'date-fns';
 
-export const formatCheckDate = (date: Date) => {
+export const formatCheckDate = (date: Date, dateFormat?: string) => {
   if (!date) return '';
-  return format(date, 'MMM d');
+  return format(date, dateFormat || 'MMM d');
 };
 
-export const rangeDate = (startDate, endDate) => {
-  if (!startDate && !endDate) return false;
+export const formatRangeDate = (startDate, endDate) => {
+  if (!startDate || !endDate) return false;
   let template = `${formatCheckDate(startDate)} - ${formatCheckDate(endDate)}`;
-  if (startDate === endDate) template = formatCheckDate(startDate);
+  if (formatCheckDate(startDate, 'd m y') === formatCheckDate(endDate, 'd m y')) {
+    template = `${formatCheckDate(startDate)} - ${
+      parseInt(formatCheckDate(endDate, 'd')) + 1
+    }`;
+  }
+
+  if (formatCheckDate(startDate, 'y') !== formatCheckDate(endDate, 'y')) {
+    template = `${formatCheckDate(startDate, 'MMM d, y')} - ${formatCheckDate(
+      endDate,
+      'MMM d, y'
+    )}`;
+  }
   return template;
 };

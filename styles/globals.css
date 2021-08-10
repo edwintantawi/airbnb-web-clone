@@ -14,3 +14,9 @@ button,
 input {
   @apply outline-none;
 }
+
+@media screen and (min-width: 640px) {
+  .h-map {
+    height: calc(100vh - 86px);
+  }
+}

@@ -18,7 +18,6 @@ interface IAppSearchOptionButtonProps extends PropsWithChildren<any> {
   onFocus: () => void;
   onBlur: (event: FocusEvent<HTMLElement>) => void;
   onClear: () => void;
-  onSearch?: () => void;
 }
 
 const AppSearchOptionButton: FC<IAppSearchOptionButtonProps> = ({
@@ -36,7 +35,6 @@ const AppSearchOptionButton: FC<IAppSearchOptionButtonProps> = ({
   onFocus,
   onBlur,
   onClear,
-  onSearch,
 }) => {
   return (
     <span
@@ -84,7 +82,6 @@ const AppSearchOptionButton: FC<IAppSearchOptionButtonProps> = ({
           className={`${
             isSearch ? 'w-auto saturate-200' : 'w-12'
           } flex items-center justify-center m-2 ml-0 px-3 h-12  rounded-full bg-primary  hover:saturate-200`}
-          onClick={onSearch}
         >
           <SearchIcon className="h-5 text-white" />
           <span

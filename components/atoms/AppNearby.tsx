@@ -9,7 +9,7 @@ interface IAppNearbyProps {
 
 const AppNearby: FC<IAppNearbyProps> = ({ data, isSmall }) => {
   return (
-    <Link href="#">
+    <Link href="/">
       <a>
         <div
           key={data.location}

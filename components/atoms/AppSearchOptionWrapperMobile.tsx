@@ -4,15 +4,15 @@ import { ChevronLeftIcon } from '@heroicons/react/outline';
 // context
 import { useDataContext } from 'hooks/useDataContext';
 // utils
-import { rangeDate, formatGuests } from 'utils';
+import { formatRangeDate, formatGuests } from 'utils';
 
-interface IAppSearchOptionButtonMobileProps extends PropsWithChildren<any> {
+interface IAppSearchOptionWrapperMobileProps extends PropsWithChildren<any> {
   title: string;
   handleOnBack: () => void;
   haveNavigation: boolean;
 }
 
-const AppSearchOptionButtonMobile: FC<IAppSearchOptionButtonMobileProps> = ({
+const AppSearchOptionWrapperMobile: FC<IAppSearchOptionWrapperMobileProps> = ({
   title,
   children,
   handleOnBack,
@@ -33,7 +33,7 @@ const AppSearchOptionButtonMobile: FC<IAppSearchOptionButtonMobileProps> = ({
           <h3 className="font-medium">{title}</h3>
           {checkIn && checkOut && (
             <span className="text-xs text-gray-300">
-              {rangeDate(checkIn, checkOut)}
+              {formatRangeDate(checkIn, checkOut)}
               {formatGuests(guests) ? ` • ${formatGuests(guests)}` : ''}
             </span>
           )}
@@ -44,4 +44,4 @@ const AppSearchOptionButtonMobile: FC<IAppSearchOptionButtonMobileProps> = ({
   );
 };
 
-export default AppSearchOptionButtonMobile;
+export default AppSearchOptionWrapperMobile;

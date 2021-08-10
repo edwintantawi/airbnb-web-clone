@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import AppSearchOptionButton from '@/components/atoms/AppSearchOptionButton';
 import AppDateRange from '@/components/atoms/AppDateRange';
 import AppCounter from '@/components/atoms/AppCounter';
-import AppSearchOption from '@/components/atoms/AppSearchOption';
+import AppSearchOptionWrapper from '@/components/atoms/AppSearchOptionWrapper';
 // data
 import { useDataContext } from 'hooks/useDataContext';
 import { DATA_ACTION_TYPES } from 'context/actionTypes';
@@ -16,7 +16,7 @@ import { ChevronRightIcon } from '@heroicons/react/outline';
 // typings
 import { EHeaderOpions } from 'typings';
 // utils
-import { formatCheckDate, rangeDate, formatGuests } from 'utils';
+import { formatCheckDate, formatRangeDate, formatGuests } from 'utils';
 
 enum ESearchMenu {
   LOCATION = 'location',
@@ -28,9 +28,10 @@ enum ESearchMenu {
 interface IAppSearchBarProps {
   menu: EHeaderOpions | null;
   isActiveHeader: boolean;
+  closeSearch?: () => void;
 }
 
-const AppSearchBar: FC<IAppSearchBarProps> = ({ menu, isActiveHeader }) => {
+const AppSearchBar: FC<IAppSearchBarProps> = ({ menu, isActiveHeader, closeSearch }) => {
   const router = useRouter();
   const [searchMenu, setSearchMenu] = useState<ESearchMenu | null>(null);
   // data
@@ -63,6 +64,8 @@ const AppSearchBar: FC<IAppSearchBarProps> = ({ menu, isActiveHeader }) => {
       setSearchMenu(ESearchMenu.LOCATION);
       return;
     }
+    // closeSearch();
+    setSearchMenu(null);
 
     router.push({
       pathname: '/search',
@@ -114,7 +117,7 @@ const AppSearchBar: FC<IAppSearchBarProps> = ({ menu, isActiveHeader }) => {
                 handleOnBlur();
               }}
             >
-              <AppSearchOption className="left-0">
+              <AppSearchOptionWrapper className="left-0">
                 <div className="py-4">
                   <h2 className="mb-4 text-xs font-bold">GO ANYWHERE, ANYTIME</h2>
                   <button className="flex justify-between w-[436px] px-6 py-4 border border-gray-200 rounded-full shadow-md text-primary">
@@ -122,7 +125,7 @@ const AppSearchBar: FC<IAppSearchBarProps> = ({ menu, isActiveHeader }) => {
                     <ChevronRightIcon className="h-6" />
                   </button>
                 </div>
-              </AppSearchOption>
+              </AppSearchOptionWrapper>
             </AppSearchOptionButton>
 
             {menu === EHeaderOpions.PLACES_TO_STAY ? (
@@ -139,9 +142,9 @@ const AppSearchBar: FC<IAppSearchBarProps> = ({ menu, isActiveHeader }) => {
                   onClear={resetDate}
                 >
                   {/* date picker */}
-                  <AppSearchOption className={dateRangeStyle}>
+                  <AppSearchOptionWrapper className={dateRangeStyle}>
                     {searchMenu === ESearchMenu.CHECK_IN && <AppDateRange />}
-                  </AppSearchOption>
+                  </AppSearchOptionWrapper>
                 </AppSearchOptionButton>
                 {/* check out */}
                 <AppSearchOptionButton
@@ -155,9 +158,9 @@ const AppSearchBar: FC<IAppSearchBarProps> = ({ menu, isActiveHeader }) => {
                   onClear={resetDate}
                 >
                   {/* date picker */}
-                  <AppSearchOption className={dateRangeStyle}>
+                  <AppSearchOptionWrapper className={dateRangeStyle}>
                     {searchMenu === ESearchMenu.CHECK_OUT && <AppDateRange />}
-                  </AppSearchOption>
+                  </AppSearchOptionWrapper>
                 </AppSearchOptionButton>
                 {/* guests */}
                 <AppSearchOptionButton
@@ -176,7 +179,7 @@ const AppSearchBar: FC<IAppSearchBarProps> = ({ menu, isActiveHeader }) => {
                   isSearch={!!searchMenu}
                   onSearch={() => setSearchMenu(ESearchMenu.LOCATION)}
                 >
-                  <AppSearchOption className="right-0 w-96">
+                  <AppSearchOptionWrapper className="right-0 w-96">
                     <div>
                       <div className="flex py-4 border-b border-gray-200 border-opacity-70">
                         <div className="flex-grow">
@@ -233,7 +236,7 @@ const AppSearchBar: FC<IAppSearchBarProps> = ({ menu, isActiveHeader }) => {
                         />
                       </div>
                     </div>
-                  </AppSearchOption>
+                  </AppSearchOptionWrapper>
                 </AppSearchOptionButton>
               </>
             ) : (
@@ -242,17 +245,16 @@ const AppSearchBar: FC<IAppSearchBarProps> = ({ menu, isActiveHeader }) => {
                 title="Date"
                 placeholder="Add when you want to go"
                 active={searchMenu === ESearchMenu.GUESTS}
-                value={rangeDate(checkIn, checkOut)}
+                value={formatRangeDate(checkIn, checkOut)}
                 onFocus={() => setSearchMenu(ESearchMenu.GUESTS)}
                 onBlur={handleOnBlur}
                 onClear={resetDate}
                 isSearch={!!searchMenu}
-                onSearch={() => {}}
               >
                 {/* date picker */}
-                <AppSearchOption className={dateRangeStyle}>
+                <AppSearchOptionWrapper className={dateRangeStyle}>
                   {searchMenu === ESearchMenu.GUESTS && <AppDateRange />}
-                </AppSearchOption>
+                </AppSearchOptionWrapper>
               </AppSearchOptionButton>
             )}
           </form>

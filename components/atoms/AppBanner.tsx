@@ -3,9 +3,9 @@ import Link from 'next/link';
 
 const AppBanner = () => {
   return (
-    <section className="my-12">
+    <section className="my-12 mb-20">
       <div className="container">
-        <Link href="#">
+        <Link href="/">
           <a className="relative block">
             <div className="h-[400px] lg:h-[400px] object-cover rounded-3xl">
               <div className="absolute inset-0 z-10 md:hidden" />

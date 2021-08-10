@@ -58,7 +58,7 @@ const SITE_MAP = [
 
 const AppFooter = () => {
   return (
-    <footer className="mt-20 bg-gray-100 border-t border-gray-200">
+    <footer className="bg-gray-100 border-t border-gray-200">
       <div className="container">
         <div className="grid grid-cols-1 lg:grid-cols-4">
           {SITE_MAP.map(({ title, sitemap }, index) => (
@@ -75,7 +75,7 @@ const AppFooter = () => {
                     key={data}
                     className="text-sm text-gray-500 hover:text-gray-400 hover:underline"
                   >
-                    <Link href="#">
+                    <Link href="/">
                       <a>{data}</a>
                     </Link>
                   </li>
@@ -101,17 +101,17 @@ const AppFooter = () => {
             </span>
             <ul className="flex space-x-6 list-disc">
               <li className="hover:underline">
-                <Link href="#">
+                <Link href="/">
                   <a>Privacy</a>
                 </Link>
               </li>
               <li className="hover:underline">
-                <Link href="#">
+                <Link href="/">
                   <a>Terms</a>
                 </Link>
               </li>
               <li className="hover:underline">
-                <Link href="#">
+                <Link href="/">
                   <a>Sitemap</a>
                 </Link>
               </li>
@@ -120,7 +120,7 @@ const AppFooter = () => {
           <div className="flex flex-col items-center mb-4 space-y-4 lg:space-y-0 lg:flex-row lg:space-x-12 lg:mb-0">
             <ul className="flex items-center space-x-4">
               <li>
-                <Link href="#">
+                <Link href="/">
                   <a className="flex items-center">
                     <GlobeAltIcon className="h-5 mr-1" />
                     <span className="underline">English (US)</span>
@@ -128,7 +128,7 @@ const AppFooter = () => {
                 </Link>
               </li>
               <li>
-                <Link href="#">
+                <Link href="/">
                   <a className="flex items-center">
                     <span className="mr-1">$</span>
                     <span className="underline">USD</span>
@@ -138,7 +138,7 @@ const AppFooter = () => {
             </ul>
             <ul className="flex space-x-6">
               <li className="flex items-center">
-                <Link href="#">
+                <Link href="/">
                   <a>
                     <Image
                       src="/assets/icons/facebook.svg"
@@ -150,7 +150,7 @@ const AppFooter = () => {
                 </Link>
               </li>
               <li className="flex items-center">
-                <Link href="#">
+                <Link href="/">
                   <a>
                     <Image
                       src="/assets/icons/twitter.svg"
@@ -162,7 +162,7 @@ const AppFooter = () => {
                 </Link>
               </li>
               <li className="flex items-center">
-                <Link href="#">
+                <Link href="/">
                   <a>
                     <Image
                       src="/assets/icons/instagram.svg"

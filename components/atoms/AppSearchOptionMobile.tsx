@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { FC, useState } from 'react';
 import { useRouter } from 'next/router';
 // components
-import AppSearchOptionButtonMobile from '@/components/atoms/AppSearchOptionButtonMobile';
+import AppSearchOptionWrapperMobile from '@/components/atoms/AppSearchOptionWrapperMobile';
 import AppDateRange from '@/components/atoms/AppDateRange';
 import AppCounter from '@/components/atoms/AppCounter';
 // icons
@@ -42,7 +42,7 @@ const AppSearchOptionMobile: FC<IAppSearchOptionMobileProps> = ({ active, onClos
         <h2 className="w-full px-4 py-3 text-2xl font-medium text-white">
           {stepName[step - 1]}
         </h2>
-        <AppSearchOptionButtonMobile
+        <AppSearchOptionWrapperMobile
           haveNavigation={step !== 1}
           title={location || 'Location'}
           handleOnBack={() => {
@@ -77,10 +77,15 @@ const AppSearchOptionMobile: FC<IAppSearchOptionMobileProps> = ({ active, onClos
                     guests: JSON.stringify(guests),
                   },
                 });
+                dispatch({ type: DATA_ACTION_TYPES.RESET_DATES });
+                dispatch({ type: DATA_ACTION_TYPES.RESET_GUESTS });
+                dispatch({ type: DATA_ACTION_TYPES.SET_LOCATION, payload: '' });
+                setStep(1);
+                onClose();
               }}
             />
           )}
-        </AppSearchOptionButtonMobile>
+        </AppSearchOptionWrapperMobile>
       </div>
     </div>
   );
@@ -209,12 +214,16 @@ const Step3 = ({ handleOnNext }) => {
         </div>
       </div>
       <div className="fixed bottom-0 left-0 right-0 grid items-center grid-cols-2 p-4 text-lg bg-white border-t border-gray-200 gap-x-4">
-        <span
-          className="px-4 py-3 text-base text-center text-gray-500 underline duration-300 border border-gray-200 rounded-lg active:scale-95"
-          onClick={handleOnNext}
-        >
-          Skip
-        </span>
+        {Object.values(guests).reduce((acc: number, curr: number) => acc + curr) ? (
+          <span
+            className="px-4 py-3 text-base text-center text-gray-500 underline duration-300 border border-gray-200 rounded-lg active:scale-95"
+            onClick={() => dispatch({ type: DATA_ACTION_TYPES.RESET_GUESTS })}
+          >
+            Clear
+          </span>
+        ) : (
+          <span></span>
+        )}
         <button
           className="flex items-center justify-center px-4 py-3 text-base text-white duration-300 rounded-lg bg-primary active:scale-95"
           onClick={handleOnNext}
