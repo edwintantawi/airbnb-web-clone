@@ -122,7 +122,7 @@ const Search = ({ searchResults }) => {
         <section
           className={`${
             map ? 'block fixed left-0 right-0 bottom-0 top-0' : 'hidden'
-          } sm:block sm:sticky top-[86px] h-map flex-grow bg-indigo-600 duration-100`}
+          } sm:block sm:sticky top-[86px] h-map flex-grow bg-yellow-900 bg-opacity-10 duration-100`}
         >
           <AppMap center={getCenterMap()}>
             <button
