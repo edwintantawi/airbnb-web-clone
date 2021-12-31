@@ -91,7 +91,7 @@ const AppHeader: FC<AppHeaderProps> = ({ exploreNearby, searchPage, query }) => 
               isActiveSearch && 'scale-[1.33] translate-y-[75px] opacity-0 z-[-50]'
             } ${
               searchPage ? 'pl-3' : 'pl-6'
-            } relative flex items-center h-12 pr-2 mx-auto text-left transform bg-white border border-gray-200 rounded-full shadow-md cursor-pointer min-w-[320px] hover:shadow-lg md:absolute left-24 lg:left-0 lg:right-0 duration-200`}
+            } relative flex items-center h-12 pr-2 mx-auto text-left transform bg-white border border-gray-200 rounded-full shadow-md cursor-pointer min-w-[320px] hover:shadow-lg md:absolute left-24 lg:left-auto lg:right-1/2 lg:translate-x-1/2 duration-200`}
             onClick={() => setIsActiveSearch(true)}
           >
             {searchPage ? (
