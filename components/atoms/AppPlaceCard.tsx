@@ -33,7 +33,7 @@ const AppPlaceCard = ({ data }) => {
           <div className="flex items-center">
             <StarIcon className="h-5 text-primary" />
             <span className="mx-1 font-semibold">{data.star}</span>
-            <span className="text-sm text-gray-300">(30 reviews)</span>
+            <span className="text-sm text-gray-300">({data.reviews})</span>
           </div>
           <div>
             <span className="mr-1 text-lg font-semibold">{data.price.split('/')[0]}</span>

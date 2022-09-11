@@ -9,7 +9,7 @@ const AppMap: FC<IAppMap> = ({ children, center }) => {
   const [viewport, setViewport] = React.useState({
     latitude: center.latitude,
     longitude: center.longitude,
-    zoom: 12,
+    zoom: 14,
   });
 
   return (
