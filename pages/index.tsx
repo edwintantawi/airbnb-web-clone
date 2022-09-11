@@ -9,9 +9,10 @@ import AppSection from '@/components/atoms/AppSection';
 import AppBanner from '@/components/atoms/AppBanner';
 import AppFooter from '@/components/atoms/AppFooter';
 import AppNearby from '@/components/atoms/AppNearby';
-import AppMobileNavigation from '@/components/atoms/AppNavigationMobile';
 // typings
 import { IExploreNearby, ILiveAnywhere } from 'typings';
+// utils
+import { getExploreNearby, getLiveAnywhere } from 'utils/data';
 
 interface IHomeDataProps {
   exploreNearby: IExploreNearby[];
@@ -75,11 +76,8 @@ const Home: FC<IHomeDataProps> = ({ exploreNearby, liveAnywhere }) => {
 };
 
 export const getStaticProps = async () => {
-  const exploreNearbyResponse = await fetch('https://jsonkeeper.com/b/4G1G');
-  const exploreNearby = await exploreNearbyResponse.json();
-
-  const liveAnywhereResponse = await fetch('https://jsonkeeper.com/b/VHHT');
-  const liveAnywhere = await liveAnywhereResponse.json();
+  const exploreNearby = await getExploreNearby();
+  const liveAnywhere = await getLiveAnywhere();
 
   return {
     props: { exploreNearby, liveAnywhere },

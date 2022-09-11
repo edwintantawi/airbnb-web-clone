@@ -15,6 +15,7 @@ import { formatGuests, formatRangeDate } from 'utils';
 // icons
 import { MapIcon, ClipboardIcon } from '@heroicons/react/solid';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline';
+import { getSearch } from 'utils/data';
 
 const Search = ({ searchResults }) => {
   const router = useRouter();
@@ -200,8 +201,7 @@ const Search = ({ searchResults }) => {
 };
 
 export const getServerSideProps = async () => {
-  const searchResultsResponse = await fetch('https://jsonkeeper.com/b/5NPS');
-  const searchResults = await searchResultsResponse.json();
+  const searchResults = await getSearch();
 
   return {
     props: { searchResults },
